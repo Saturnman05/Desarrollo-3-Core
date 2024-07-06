@@ -14,3 +14,35 @@ C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededatos.csproj
 C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededa.76C5F8C5.Up2Date
 C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededatos.exe
 C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededatos.pdb
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\basededatos.exe.config
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\basededatos.exe
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\basededatos.pdb
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\EntityFramework.dll
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\System.Data.SQLite.dll
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\EntityFramework.xml
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\bin\Debug\System.Data.SQLite.xml
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\obj\Debug\basededatos.csproj.AssemblyReference.cache
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\obj\Debug\basededatos.csproj.CoreCompileInputs.cache
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\obj\Debug\basededa.76C5F8C5.Up2Date
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\obj\Debug\basededatos.exe
+C:\Users\user\Documents\Universidad\7mo trimestre (Mayo-Julio)\Desarrollo de Software 3\ProyectoFinal\basededatos\basededatos\basededatos\obj\Debug\basededatos.pdb
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\basededatos.exe.config
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\basededatos.exe
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\basededatos.pdb
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\EntityFramework.dll
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\System.Data.SQLite.dll
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\EntityFramework.xml
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\user\Desktop\basededatos\basededatos\bin\Debug\System.Data.SQLite.xml
+C:\Users\user\Desktop\basededatos\basededatos\obj\Debug\basededatos.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\basededatos\basededatos\obj\Debug\basededatos.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\basededatos\basededatos\obj\Debug\basededa.76C5F8C5.Up2Date
+C:\Users\user\Desktop\basededatos\basededatos\obj\Debug\basededatos.exe
+C:\Users\user\Desktop\basededatos\basededatos\obj\Debug\basededatos.pdb

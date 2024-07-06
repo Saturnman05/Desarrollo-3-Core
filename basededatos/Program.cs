@@ -1,19 +1,26 @@
-﻿using System;
+﻿using basededatos;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics;
+using System.Xml.Linq;
 
-class Program
+namespace Core
 {
-    static void ExecuteSQL(SQLiteConnection connection, string sql)
+    public class Program
     {
-        using (var command = new SQLiteCommand(sql, connection))
+        static void ExecuteSQL(SQLiteConnection connection, string sql)
         {
-            command.ExecuteNonQuery();
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                command.ExecuteNonQuery();
+            }
         }
-    }
 
-    static void CreateTables(SQLiteConnection connection)
-    {
-        string createProductsTable = @"
+        public static void CreateTables(SQLiteConnection connection)
+        {
+            string createProductsTable = @"
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
@@ -22,7 +29,7 @@ class Program
                 stock INTEGER
             );";
 
-        string createOrdersTable = @"
+            string createOrdersTable = @"
             CREATE TABLE IF NOT EXISTS orders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 product_id INTEGER,
@@ -32,7 +39,7 @@ class Program
                 FOREIGN KEY(product_id) REFERENCES products(id)
             );";
 
-        string createPaymentsTable = @"
+            string createPaymentsTable = @"
             CREATE TABLE IF NOT EXISTS payments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 order_id INTEGER,
@@ -42,7 +49,7 @@ class Program
                 FOREIGN KEY(order_id) REFERENCES orders(id)
             );";
 
-        string createInventoryTable = @"
+            string createInventoryTable = @"
             CREATE TABLE IF NOT EXISTS inventory (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 product_id INTEGER,
@@ -50,153 +57,189 @@ class Program
                 FOREIGN KEY(product_id) REFERENCES products(id)
             );";
 
-        ExecuteSQL(connection, createProductsTable);
-        ExecuteSQL(connection, createOrdersTable);
-        ExecuteSQL(connection, createPaymentsTable);
-        ExecuteSQL(connection, createInventoryTable);
-    }
-
-    static void AddProduct(SQLiteConnection connection)
-    {
-        Console.Write("Nombre del producto: ");
-        string name = Console.ReadLine();
-        Console.Write("Descripción del producto: ");
-        string description = Console.ReadLine();
-        Console.Write("Precio del producto: ");
-        double price = Convert.ToDouble(Console.ReadLine());
-        Console.Write("Cantidad en stock: ");
-        int stock = Convert.ToInt32(Console.ReadLine());
-
-        string sql = "INSERT INTO products (name, description, price, stock) VALUES (@name, @description, @price, @stock)";
-        using (var command = new SQLiteCommand(sql, connection))
-        {
-            command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@description", description);
-            command.Parameters.AddWithValue("@price", price);
-            command.Parameters.AddWithValue("@stock", stock);
-            command.ExecuteNonQuery();
+            ExecuteSQL(connection, createProductsTable);
+            ExecuteSQL(connection, createOrdersTable);
+            ExecuteSQL(connection, createPaymentsTable);
+            ExecuteSQL(connection, createInventoryTable);
         }
 
-        Console.WriteLine("Producto añadido.");
-    }
-
-    static void ListProducts(SQLiteConnection connection)
-    {
-        string sql = "SELECT * FROM products";
-        using (var command = new SQLiteCommand(sql, connection))
-        using (var reader = command.ExecuteReader())
+        public static void AddProduct(SQLiteConnection connection, Product product)
         {
-            Console.WriteLine("Lista de Productos:");
-            while (reader.Read())
+            string sql = "INSERT INTO products (name, description, price, stock) VALUES (@name, @description, @price, @stock)";
+
+            if (product == null)
             {
-                Console.WriteLine($"{reader["id"]}: {reader["name"]} - {reader["description"]} - ${reader["price"]} - Stock: {reader["stock"]}");
+                Console.Write("Nombre del producto: ");
+                string name = Console.ReadLine();
+                Console.Write("Descripción del producto: ");
+                string description = Console.ReadLine();
+                Console.Write("Precio del producto: ");
+                double price = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Cantidad en stock: ");
+                int stock = Convert.ToInt32(Console.ReadLine());
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@name", name);
+                    command.Parameters.AddWithValue("@description", description);
+                    command.Parameters.AddWithValue("@price", price);
+                    command.Parameters.AddWithValue("@stock", stock);
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Producto añadido.");
+                return;
+            }
+
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@name", product.Name);
+                command.Parameters.AddWithValue("@description", product.Description);
+                command.Parameters.AddWithValue("@price", product.Price);
+                command.Parameters.AddWithValue("@stock", product.Stock);
+                command.ExecuteNonQuery();
             }
         }
-    }
 
-    static void UpdateProduct(SQLiteConnection connection)
-    {
-        Console.Write("ID del producto a actualizar: ");
-        int id = Convert.ToInt32(Console.ReadLine());
-        Console.Write("Nuevo nombre del producto: ");
-        string name = Console.ReadLine();
-        Console.Write("Nueva descripción del producto: ");
-        string description = Console.ReadLine();
-        Console.Write("Nuevo precio del producto: ");
-        double price = Convert.ToDouble(Console.ReadLine());
-        Console.Write("Nueva cantidad en stock: ");
-        int stock = Convert.ToInt32(Console.ReadLine());
-
-        string sql = "UPDATE products SET name = @name, description = @description, price = @price, stock = @stock WHERE id = @id";
-        using (var command = new SQLiteCommand(sql, connection))
+        public static List<Product> ListProducts(SQLiteConnection connection)
         {
-            command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@description", description);
-            command.Parameters.AddWithValue("@price", price);
-            command.Parameters.AddWithValue("@stock", stock);
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
-        }
+            List<Product> productos = new List<Product>();
 
-        Console.WriteLine("Producto actualizado.");
-    }
-
-    static void DeleteProduct(SQLiteConnection connection)
-    {
-        Console.Write("ID del producto a eliminar: ");
-        int id = Convert.ToInt32(Console.ReadLine());
-
-        string sql = "DELETE FROM products WHERE id = @id";
-        using (var command = new SQLiteCommand(sql, connection))
-        {
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
-        }
-
-        Console.WriteLine("Producto eliminado.");
-    }
-
-    static void Main(string[] args)
-    {
-        using (var connection = new SQLiteConnection("Data Source=:memory:;Version=3;New=True;"))
-        {
-            connection.Open();
-            CreateTables(connection);
-
-            while (true)
+            string sql = "SELECT * FROM products";
+            using (var command = new SQLiteCommand(sql, connection))
+            using (var reader = command.ExecuteReader())
             {
-                Console.WriteLine("\nGestión de la Tienda:");
-                Console.WriteLine("1. Gestión de Productos");
-                Console.WriteLine("2. Salir");
-                Console.Write("Seleccione una opción: ");
-                int choice = Convert.ToInt32(Console.ReadLine());
-
-                if (choice == 1)
+                Console.WriteLine("Lista de Productos:");
+                while (reader.Read())
                 {
-                    while (true)
-                    {
-                        Console.WriteLine("\nGestión de Productos:");
-                        Console.WriteLine("1. Obtener lista de productos");
-                        Console.WriteLine("2. Añadir un nuevo producto");
-                        Console.WriteLine("3. Actualizar un producto existente");
-                        Console.WriteLine("4. Eliminar un producto");
-                        Console.WriteLine("5. Volver al menú principal");
-                        Console.Write("Seleccione una opción: ");
-                        int productChoice = Convert.ToInt32(Console.ReadLine());
+                    int id = int.Parse(reader["id"].ToString());
+                    string name = reader["name"].ToString();
+                    string description = reader["description"].ToString();
+                    string price = reader["price"].ToString();
+                    int stock = int.Parse(reader["stock"].ToString());
 
-                        if (productChoice == 1)
+                    Product product = new Product()
+                    {
+                        Id = id,
+                        Name = name,
+                        Description = description,
+                        Price = price,
+                        Stock = stock
+                    };
+
+                    productos.Add(product);
+
+                    Console.WriteLine($"{product.Id}: {product.Name} - {product.Description} - ${product.Price} - Stock: {product.Stock}");
+                }
+            }
+
+            return productos;
+        }
+
+        static void UpdateProduct(SQLiteConnection connection)
+        {
+            Console.Write("ID del producto a actualizar: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Nuevo nombre del producto: ");
+            string name = Console.ReadLine();
+            Console.Write("Nueva descripción del producto: ");
+            string description = Console.ReadLine();
+            Console.Write("Nuevo precio del producto: ");
+            double price = Convert.ToDouble(Console.ReadLine());
+            Console.Write("Nueva cantidad en stock: ");
+            int stock = Convert.ToInt32(Console.ReadLine());
+
+            string sql = "UPDATE products SET name = @name, description = @description, price = @price, stock = @stock WHERE id = @id";
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@description", description);
+                command.Parameters.AddWithValue("@price", price);
+                command.Parameters.AddWithValue("@stock", stock);
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+            }
+
+            Console.WriteLine("Producto actualizado.");
+        }
+
+        static void DeleteProduct(SQLiteConnection connection)
+        {
+            Console.Write("ID del producto a eliminar: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+
+            string sql = "DELETE FROM products WHERE id = @id";
+            using (var command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+            }
+
+            Console.WriteLine("Producto eliminado.");
+        }
+
+        static void Main(string[] args)
+        {
+            using (var connection = new SQLiteConnection("Data Source=:memory:;Version=3;New=True;"))
+            {
+                connection.Open();
+                CreateTables(connection);
+
+                while (true)
+                {
+                    Console.WriteLine("\nGestión de la Tienda:");
+                    Console.WriteLine("1. Gestión de Productos");
+                    Console.WriteLine("2. Salir");
+                    Console.Write("Seleccione una opción: ");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+
+                    if (choice == 1)
+                    {
+                        while (true)
                         {
-                            ListProducts(connection);
-                        }
-                        else if (productChoice == 2)
-                        {
-                            AddProduct(connection);
-                        }
-                        else if (productChoice == 3)
-                        {
-                            UpdateProduct(connection);
-                        }
-                        else if (productChoice == 4)
-                        {
-                            DeleteProduct(connection);
-                        }
-                        else if (productChoice == 5)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Opción no válida.");
+                            Console.WriteLine("\nGestión de Productos:");
+                            Console.WriteLine("1. Obtener lista de productos");
+                            Console.WriteLine("2. Añadir un nuevo producto");
+                            Console.WriteLine("3. Actualizar un producto existente");
+                            Console.WriteLine("4. Eliminar un producto");
+                            Console.WriteLine("5. Volver al menú principal");
+                            Console.Write("Seleccione una opción: ");
+                            int productChoice = Convert.ToInt32(Console.ReadLine());
+
+                            if (productChoice == 1)
+                            {
+                                ListProducts(connection);
+                            }
+                            else if (productChoice == 2)
+                            {
+                                AddProduct(connection, null);
+                            }
+                            else if (productChoice == 3)
+                            {
+                                UpdateProduct(connection);
+                            }
+                            else if (productChoice == 4)
+                            {
+                                DeleteProduct(connection);
+                            }
+                            else if (productChoice == 5)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Opción no válida.");
+                            }
                         }
                     }
-                }
-                else if (choice == 2)
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Opción no válida.");
+                    else if (choice == 2)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Opción no válida.");
+                    }
                 }
             }
         }
