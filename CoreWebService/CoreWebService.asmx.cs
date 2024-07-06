@@ -13,7 +13,7 @@ namespace CoreWebService
     /// <summary>
     /// Summary description for CoreWebService
     /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
+    [WebService(Namespace = "http://core.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
@@ -96,20 +96,65 @@ namespace CoreWebService
         }
 
         // Pedidos
-        //[WebMethod]
-        //public void PostOrder () { }
+        [WebMethod]
+        public void PostOrder (int productId, int quantity, decimal totalPrice, DateTime date) 
+        { 
+            using (var conn = new SqlConnection(connstring))
+            {
+                conn.Open();
 
-        //[WebMethod]
-        //public void GetOrders () { }
+                Order order = new Order()
+                {
+                    ProductId = productId,
+                    Quantity = quantity,
+                    TotalPrice = totalPrice,
+                    Date = date
+                };
 
-        //[WebMethod]
-        //public void GetOrderDetail () { }
+                Order.AddOrder(conn, order);
+            }
+        }
 
-        //[WebMethod]
-        //public void PutOrder () { }
+        [WebMethod]
+        public List<Order> GetOrders() 
+        {
+            using (var conn = new SqlConnection(connstring))
+            {
+                conn.Open();
 
-        //[WebMethod]
-        //public void DeleteOrder () { }
+                return Order.ListOrders(conn);
+            }
+        }
+
+        [WebMethod]
+        public void PutOrder(int orderId, int productId, int quantity, decimal totalPrice, DateTime date) 
+        {
+            using (var conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                Order order = new Order()
+                {
+                    Id = orderId,
+                    ProductId = productId,
+                    Quantity = quantity,
+                    TotalPrice = totalPrice,
+                    Date = date
+                };
+
+                Order.UpdateOrder(conn, order);
+            }
+        }
+
+        [WebMethod]
+        public void DeleteOrder(int orderId) 
+        {
+            using (var conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+                Order.DeleteOrder(conn, orderId);
+            }
+        }
 
         // Pagos
 
