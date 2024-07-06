@@ -1,0 +1,16 @@
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\basededatos.exe.config
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\basededatos.exe
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\basededatos.pdb
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\EntityFramework.dll
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\System.Data.SQLite.dll
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\EntityFramework.xml
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\yeury\source\repos\basededatos\basededatos\bin\Debug\System.Data.SQLite.xml
+C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededatos.csproj.AssemblyReference.cache
+C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededatos.csproj.CoreCompileInputs.cache
+C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededa.76C5F8C5.Up2Date
+C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededatos.exe
+C:\Users\yeury\source\repos\basededatos\basededatos\obj\Debug\basededatos.pdb
