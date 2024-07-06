@@ -11,58 +11,40 @@ namespace Core
 {
     public class Program
     {
-        static void ExecuteSQL(SQLiteConnection connection, string sql)
+        public static List<Product> ListProducts(SqlConnection connection)
         {
-            using (var command = new SQLiteCommand(sql, connection))
+            List<Product> productos = new List<Product>();
+
+            string sql = "SELECT * FROM products";
+            using (var command = new SqlCommand(sql, connection))
+            using (var reader = command.ExecuteReader())
             {
-                command.ExecuteNonQuery();
+                Console.WriteLine("Lista de Productos:");
+                while (reader.Read())
+                {
+                    int id = int.Parse(reader["id"].ToString());
+                    string name = reader["name"].ToString();
+                    string description = reader["description"].ToString();
+                    decimal price = decimal.Parse(reader["price"].ToString());
+                    int stock = int.Parse(reader["stock"].ToString());
+
+                    Product product = new Product()
+                    {
+                        Id = id,
+                        Name = name,
+                        Description = description,
+                        Price = price,
+                        Stock = stock
+                    };
+
+                    productos.Add(product);
+
+                    Console.WriteLine($"{product.Id}: {product.Name} - {product.Description} - ${product.Price} - Stock: {product.Stock}");
+                }
             }
+
+            return productos;
         }
-
-        //public static void CreateTables(SQLiteConnection connection)
-        //{
-        //    string createProductsTable = @"
-        //    CREATE TABLE IF NOT EXISTS products (
-        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        //        name TEXT,
-        //        description TEXT,
-        //        price REAL,
-        //        stock INTEGER
-        //    );";
-
-        //    string createOrdersTable = @"
-        //    CREATE TABLE IF NOT EXISTS orders (
-        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        //        product_id INTEGER,
-        //        quantity INTEGER,
-        //        total_price REAL,
-        //        date TEXT,
-        //        FOREIGN KEY(product_id) REFERENCES products(id)
-        //    );";
-
-        //    string createPaymentsTable = @"
-        //    CREATE TABLE IF NOT EXISTS payments (
-        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        //        order_id INTEGER,
-        //        amount REAL,
-        //        date TEXT,
-        //        status TEXT,
-        //        FOREIGN KEY(order_id) REFERENCES orders(id)
-        //    );";
-
-        //    string createInventoryTable = @"
-        //    CREATE TABLE IF NOT EXISTS inventory (
-        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        //        product_id INTEGER,
-        //        quantity INTEGER,
-        //        FOREIGN KEY(product_id) REFERENCES products(id)
-        //    );";
-
-        //    ExecuteSQL(connection, createProductsTable);
-        //    ExecuteSQL(connection, createOrdersTable);
-        //    ExecuteSQL(connection, createPaymentsTable);
-        //    ExecuteSQL(connection, createInventoryTable);
-        //}
 
         public static void AddProduct(SqlConnection connection, Product product)
         {
@@ -75,7 +57,7 @@ namespace Core
                 Console.Write("Descripción del producto: ");
                 string description = Console.ReadLine();
                 Console.Write("Precio del producto: ");
-                double price = Convert.ToDouble(Console.ReadLine());
+                decimal price = Convert.ToDecimal(Console.ReadLine());
                 Console.Write("Cantidad en stock: ");
                 int stock = Convert.ToInt32(Console.ReadLine());
 
@@ -102,86 +84,100 @@ namespace Core
             }
         }
 
-        public static List<Product> ListProducts(SqlConnection connection)
+        public static Product UpdateProduct(SqlConnection connection, Product product)
         {
-            List<Product> productos = new List<Product>();
+            string sql = "UPDATE products SET name = @name, description = @description, price = @price, stock = @stock WHERE id = @id";
 
-            string sql = "SELECT * FROM products";
+            if (product == null)
+            {
+                Console.Write("ID del producto a actualizar: ");
+                int id = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Nuevo nombre del producto: ");
+                string name = Console.ReadLine();
+                Console.Write("Nueva descripción del producto: ");
+                string description = Console.ReadLine();
+                Console.Write("Nuevo precio del producto: ");
+                decimal price = Convert.ToDecimal(Console.ReadLine());
+                Console.Write("Nueva cantidad en stock: ");
+                int stock = Convert.ToInt32(Console.ReadLine());
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@name", name);
+                    command.Parameters.AddWithValue("@description", description);
+                    command.Parameters.AddWithValue("@price", price);
+                    command.Parameters.AddWithValue("@stock", stock);
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Producto actualizado.");
+                return product;
+            }
+
+            using (var command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@name", product.Name);
+                command.Parameters.AddWithValue("@description", product.Description);
+                command.Parameters.AddWithValue("@price", product.Price);
+                command.Parameters.AddWithValue("@stock", product.Stock);
+                command.Parameters.AddWithValue("@id", product.Id);
+                command.ExecuteNonQuery();
+            }
+
+            return product;
+        }
+
+        public static void DeleteProduct(SqlConnection connection, Product product)
+        {
+            string sql = "DELETE FROM products WHERE id = @id";
+
+            if (product == null)
+            {
+                Console.Write("ID del producto a eliminar: ");
+                int id = Convert.ToInt32(Console.ReadLine());
+
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Producto eliminado.");
+            }
+
+            using (var command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@id", product.Id);
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static Product GetProduct(SqlConnection connection, int id)
+        {
+            Product product = new Product();
+
+            string sql = $"SELECT * FROM products WHERE id = {id}";
+
             using (var command = new SqlCommand(sql, connection))
             using (var reader = command.ExecuteReader())
             {
-                Console.WriteLine("Lista de Productos:");
-                while (reader.Read())
-                {
-                    int id = int.Parse(reader["id"].ToString());
-                    string name = reader["name"].ToString();
-                    string description = reader["description"].ToString();
-                    string price = reader["price"].ToString();
-                    int stock = int.Parse(reader["stock"].ToString());
-
-                    Product product = new Product()
-                    {
-                        Id = id,
-                        Name = name,
-                        Description = description,
-                        Price = price,
-                        Stock = stock
-                    };
-
-                    productos.Add(product);
-
-                    Console.WriteLine($"{product.Id}: {product.Name} - {product.Description} - ${product.Price} - Stock: {product.Stock}");
+                if (reader.Read()) {
+                    product.Id = id;
+                    product.Name = reader["name"].ToString();
+                    product.Description = reader["description"].ToString();
+                    product.Price = decimal.Parse(reader["price"].ToString());
+                    product.Stock = int.Parse(reader["stock"].ToString());
                 }
             }
 
-            return productos;
-        }
-
-        static void UpdateProduct(SQLiteConnection connection)
-        {
-            Console.Write("ID del producto a actualizar: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Nuevo nombre del producto: ");
-            string name = Console.ReadLine();
-            Console.Write("Nueva descripción del producto: ");
-            string description = Console.ReadLine();
-            Console.Write("Nuevo precio del producto: ");
-            double price = Convert.ToDouble(Console.ReadLine());
-            Console.Write("Nueva cantidad en stock: ");
-            int stock = Convert.ToInt32(Console.ReadLine());
-
-            string sql = "UPDATE products SET name = @name, description = @description, price = @price, stock = @stock WHERE id = @id";
-            using (var command = new SQLiteCommand(sql, connection))
-            {
-                command.Parameters.AddWithValue("@name", name);
-                command.Parameters.AddWithValue("@description", description);
-                command.Parameters.AddWithValue("@price", price);
-                command.Parameters.AddWithValue("@stock", stock);
-                command.Parameters.AddWithValue("@id", id);
-                command.ExecuteNonQuery();
-            }
-
-            Console.WriteLine("Producto actualizado.");
-        }
-
-        static void DeleteProduct(SQLiteConnection connection)
-        {
-            Console.Write("ID del producto a eliminar: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
-            string sql = "DELETE FROM products WHERE id = @id";
-            using (var command = new SQLiteCommand(sql, connection))
-            {
-                command.Parameters.AddWithValue("@id", id);
-                command.ExecuteNonQuery();
-            }
-
-            Console.WriteLine("Producto eliminado.");
+            return product;
         }
 
         static void Main(string[] args)
         {
             string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+
             using (var con = new SqlConnection(connstring))
             {
                 con.Open();
@@ -216,11 +212,11 @@ namespace Core
                             }
                             else if (productChoice == 3)
                             {
-                                //UpdateProduct(con);
+                                UpdateProduct(con, null);
                             }
                             else if (productChoice == 4)
                             {
-                                //DeleteProduct(con);
+                                DeleteProduct(con, null);
                             }
                             else if (productChoice == 5)
                             {
