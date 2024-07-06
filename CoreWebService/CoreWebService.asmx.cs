@@ -20,13 +20,6 @@ namespace CoreWebService
     // [System.Web.Script.Services.ScriptService]
     public class CoreWebService : System.Web.Services.WebService
     {
-
-        [WebMethod]
-        public string HelloWorld()
-        {
-            return "Hello World";
-        }
-
         [WebMethod]
         public List<Product> ListaProductos ()
         {
@@ -44,6 +37,26 @@ namespace CoreWebService
                 Core.Program.AddProduct(connection, produt);
 
                 return Core.Program.ListProducts(connection);
+            }
+        }
+
+        [WebMethod]
+        public void AñadirProducto (string name, string description, string price, int stock)
+        {
+            using (var connection = new SQLiteConnection("Data Source=:memory:;Version=3;New=True;"))
+            {
+                connection.Open();
+                Core.Program.CreateTables(connection);
+
+                Product product = new Product()
+                {
+                    Description = description,
+                    Name = name,
+                    Price = price,
+                    Stock = stock
+                };
+
+                Core.Program.AddProduct(connection, product);
             }
         }
     }
