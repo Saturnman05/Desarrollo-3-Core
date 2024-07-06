@@ -20,30 +20,6 @@ namespace Core
         {
             string sql = "INSERT INTO orders (product_id, quantity, total_price, date) VALUES (@product_id, @quantity, @total_price, @date)";
 
-            if (order == null)
-            {
-                Console.Write("Nombre del producto: ");
-                int productId = int.Parse(Console.ReadLine());
-                Console.Write("Descripción del producto: ");
-                int quantity = int.Parse(Console.ReadLine());
-                Console.Write("Precio del producto: ");
-                decimal totalPrice = Convert.ToDecimal(Console.ReadLine());
-                Console.Write("Cantidad en stock: ");
-                DateTime date = DateTime.Parse(Console.ReadLine());
-
-                using (var command = new SqlCommand(sql, con))
-                {
-                    command.Parameters.AddWithValue("@product_id", productId);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@total_price", totalPrice);
-                    command.Parameters.AddWithValue("@date", date);
-                    command.ExecuteNonQuery();
-                }
-
-                Console.WriteLine("Producto añadido.");
-                return;
-            }
-
             using (var command = new SqlCommand(sql, con))
             {
                 command.Parameters.AddWithValue("@product_id", order.ProductId);

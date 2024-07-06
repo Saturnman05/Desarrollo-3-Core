@@ -20,7 +20,7 @@ namespace CoreWebService
     // [System.Web.Script.Services.ScriptService]
     public class CoreWebService : System.Web.Services.WebService
     {
-        string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+        private string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
         
         // Productos
         [WebMethod]
@@ -116,7 +116,7 @@ namespace CoreWebService
         }
 
         [WebMethod]
-        public List<Order> GetOrders() 
+        public List<Order> GetOrders () 
         {
             using (var conn = new SqlConnection(connstring))
             {
@@ -127,7 +127,7 @@ namespace CoreWebService
         }
 
         [WebMethod]
-        public void PutOrder(int orderId, int productId, int quantity, decimal totalPrice, DateTime date) 
+        public void PutOrder (int orderId, int productId, int quantity, decimal totalPrice, DateTime date) 
         {
             using (var conn = new SqlConnection(connstring))
             {
@@ -147,7 +147,7 @@ namespace CoreWebService
         }
 
         [WebMethod]
-        public void DeleteOrder(int orderId) 
+        public void DeleteOrder (int orderId) 
         {
             using (var conn = new SqlConnection(connstring))
             {
@@ -157,7 +157,99 @@ namespace CoreWebService
         }
 
         // Pagos
+        [WebMethod]
+        public void PostPayment (int order_id, decimal amount, DateTime date, string status) 
+        {
+            using (var conn = new SqlConnection(connstring))
+            {
+                conn.Open();
+
+                Payment payment = new Payment() 
+                {
+                    OrderId = order_id,
+                    Amount = amount,
+                    Date = date,
+                    Status = status
+                };
+
+                Payment.AddPayment(conn, payment);
+            }
+        }
+
+        [WebMethod]
+        public Payment GetPayment (int paymentId) 
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+                return Payment.GetPayment(con, paymentId);
+            }
+        }
+
+        [WebMethod]
+        public void DeletePayment (int paymentId) 
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+                Payment.DeletePayment(con, paymentId);
+            }
+        }
 
         // Inventario
+        [WebMethod]
+        public List<Inventory> GetInventory () 
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+                return Inventory.ListItems(con);
+            }
+        }
+
+        [WebMethod]
+        public void PostInventoryItem (int productId, int quantity) 
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+
+                Inventory item = new Inventory()
+                {
+                    ProductId = productId,
+                    Quantity = quantity
+                };
+
+                Inventory.AddItem(con, item);
+            }
+        }
+
+        [WebMethod]
+        public void PutIventoryItem (int itemId, int productId, int quantity) 
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+
+                Inventory item = new Inventory()
+                {
+                    Id = itemId,
+                    ProductId = productId,
+                    Quantity = quantity
+                };
+
+                Inventory.UpdateInventory(con, item);
+            }
+        }
+
+        [WebMethod]
+        public void DeleteIventoryItem (int itemId) 
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+                Inventory.DeleteItem(con, itemId);
+            }
+        }
     }
 }
