@@ -7,6 +7,7 @@ using System.Web.Services;
 using System.Data.SQLite;
 using Core;
 using basededatos;
+using System.Data.SqlClient;
 
 namespace CoreWebService
 {
@@ -20,33 +21,24 @@ namespace CoreWebService
     // [System.Web.Script.Services.ScriptService]
     public class CoreWebService : System.Web.Services.WebService
     {
+        string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+
         [WebMethod]
         public List<Product> ListaProductos ()
         {
-            using (var connection = new SQLiteConnection("Data Source=:memory:;Version=3;New=True;"))
+            using (var connection = new SqlConnection(connstring))
             {
                 connection.Open();
-                Core.Program.CreateTables(connection);
-                Product produt = new Product() {
-                    Name = "foo",
-                    Description = "bar",
-                    Price = "12",
-                    Stock = 12,
-                };
-
-                Core.Program.AddProduct(connection, produt);
-
-                return Core.Program.ListProducts(connection);
+                return Program.ListProducts(connection);
             }
         }
 
         [WebMethod]
         public void AñadirProducto (string name, string description, string price, int stock)
         {
-            using (var connection = new SQLiteConnection("Data Source=:memory:;Version=3;New=True;"))
+            using (var connection = new SqlConnection(connstring))
             {
                 connection.Open();
-                Core.Program.CreateTables(connection);
 
                 Product product = new Product()
                 {
@@ -56,8 +48,10 @@ namespace CoreWebService
                     Stock = stock
                 };
 
-                Core.Program.AddProduct(connection, product);
+                Program.AddProduct(connection, product);
             }
+
+            return;
         }
     }
 }

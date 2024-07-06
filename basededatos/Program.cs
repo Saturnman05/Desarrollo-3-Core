@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Xml.Linq;
@@ -18,52 +19,52 @@ namespace Core
             }
         }
 
-        public static void CreateTables(SQLiteConnection connection)
-        {
-            string createProductsTable = @"
-            CREATE TABLE IF NOT EXISTS products (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT,
-                description TEXT,
-                price REAL,
-                stock INTEGER
-            );";
+        //public static void CreateTables(SQLiteConnection connection)
+        //{
+        //    string createProductsTable = @"
+        //    CREATE TABLE IF NOT EXISTS products (
+        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        //        name TEXT,
+        //        description TEXT,
+        //        price REAL,
+        //        stock INTEGER
+        //    );";
 
-            string createOrdersTable = @"
-            CREATE TABLE IF NOT EXISTS orders (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                product_id INTEGER,
-                quantity INTEGER,
-                total_price REAL,
-                date TEXT,
-                FOREIGN KEY(product_id) REFERENCES products(id)
-            );";
+        //    string createOrdersTable = @"
+        //    CREATE TABLE IF NOT EXISTS orders (
+        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        //        product_id INTEGER,
+        //        quantity INTEGER,
+        //        total_price REAL,
+        //        date TEXT,
+        //        FOREIGN KEY(product_id) REFERENCES products(id)
+        //    );";
 
-            string createPaymentsTable = @"
-            CREATE TABLE IF NOT EXISTS payments (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                order_id INTEGER,
-                amount REAL,
-                date TEXT,
-                status TEXT,
-                FOREIGN KEY(order_id) REFERENCES orders(id)
-            );";
+        //    string createPaymentsTable = @"
+        //    CREATE TABLE IF NOT EXISTS payments (
+        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        //        order_id INTEGER,
+        //        amount REAL,
+        //        date TEXT,
+        //        status TEXT,
+        //        FOREIGN KEY(order_id) REFERENCES orders(id)
+        //    );";
 
-            string createInventoryTable = @"
-            CREATE TABLE IF NOT EXISTS inventory (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                product_id INTEGER,
-                quantity INTEGER,
-                FOREIGN KEY(product_id) REFERENCES products(id)
-            );";
+        //    string createInventoryTable = @"
+        //    CREATE TABLE IF NOT EXISTS inventory (
+        //        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        //        product_id INTEGER,
+        //        quantity INTEGER,
+        //        FOREIGN KEY(product_id) REFERENCES products(id)
+        //    );";
 
-            ExecuteSQL(connection, createProductsTable);
-            ExecuteSQL(connection, createOrdersTable);
-            ExecuteSQL(connection, createPaymentsTable);
-            ExecuteSQL(connection, createInventoryTable);
-        }
+        //    ExecuteSQL(connection, createProductsTable);
+        //    ExecuteSQL(connection, createOrdersTable);
+        //    ExecuteSQL(connection, createPaymentsTable);
+        //    ExecuteSQL(connection, createInventoryTable);
+        //}
 
-        public static void AddProduct(SQLiteConnection connection, Product product)
+        public static void AddProduct(SqlConnection connection, Product product)
         {
             string sql = "INSERT INTO products (name, description, price, stock) VALUES (@name, @description, @price, @stock)";
 
@@ -78,7 +79,7 @@ namespace Core
                 Console.Write("Cantidad en stock: ");
                 int stock = Convert.ToInt32(Console.ReadLine());
 
-                using (var command = new SQLiteCommand(sql, connection))
+                using (var command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@name", name);
                     command.Parameters.AddWithValue("@description", description);
@@ -91,7 +92,7 @@ namespace Core
                 return;
             }
 
-            using (var command = new SQLiteCommand(sql, connection))
+            using (var command = new SqlCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@name", product.Name);
                 command.Parameters.AddWithValue("@description", product.Description);
@@ -101,12 +102,12 @@ namespace Core
             }
         }
 
-        public static List<Product> ListProducts(SQLiteConnection connection)
+        public static List<Product> ListProducts(SqlConnection connection)
         {
             List<Product> productos = new List<Product>();
 
             string sql = "SELECT * FROM products";
-            using (var command = new SQLiteCommand(sql, connection))
+            using (var command = new SqlCommand(sql, connection))
             using (var reader = command.ExecuteReader())
             {
                 Console.WriteLine("Lista de Productos:");
@@ -180,11 +181,10 @@ namespace Core
 
         static void Main(string[] args)
         {
-            using (var connection = new SQLiteConnection("Data Source=:memory:;Version=3;New=True;"))
+            string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+            using (var con = new SqlConnection(connstring))
             {
-                connection.Open();
-                CreateTables(connection);
-
+                con.Open();
                 while (true)
                 {
                     Console.WriteLine("\nGestión de la Tienda:");
@@ -208,19 +208,19 @@ namespace Core
 
                             if (productChoice == 1)
                             {
-                                ListProducts(connection);
+                                ListProducts(con);
                             }
                             else if (productChoice == 2)
                             {
-                                AddProduct(connection, null);
+                                AddProduct(con, null);
                             }
                             else if (productChoice == 3)
                             {
-                                UpdateProduct(connection);
+                                //UpdateProduct(con);
                             }
                             else if (productChoice == 4)
                             {
-                                DeleteProduct(connection);
+                                //DeleteProduct(con);
                             }
                             else if (productChoice == 5)
                             {
