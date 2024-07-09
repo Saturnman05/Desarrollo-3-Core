@@ -5,8 +5,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Services;
 using Core;
-using basededatos;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace CoreWebService
 {
@@ -21,6 +22,25 @@ namespace CoreWebService
     public class CoreWebService : System.Web.Services.WebService
     {
         private string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+
+        // Usuario
+        [WebMethod]
+        public void PostUser (string username, string password, int rol)
+        {
+            using (var connection = new SqlConnection(connstring))
+            {
+                connection.Open();
+
+                User user = new User()
+                {
+                    Username = username,
+                    Password = password,
+                    Rol = rol
+                };
+
+                Core.User.AddUser(connection, user);
+            }
+        }
         
         // Productos
         [WebMethod]
@@ -29,7 +49,7 @@ namespace CoreWebService
             using (var connection = new SqlConnection(connstring))
             {
                 connection.Open();
-                return Program.ListProducts(connection);
+                return Product.ListProducts(connection);
             }
         }
 
@@ -48,10 +68,8 @@ namespace CoreWebService
                     Stock = stock
                 };
 
-                Program.AddProduct(connection, product);
+                Product.AddProduct(connection, product);
             }
-
-            return;
         }
 
         [WebMethod]
@@ -70,7 +88,7 @@ namespace CoreWebService
                     Stock = stock
                 };
 
-                Program.UpdateProduct(connection, product);
+                Product.UpdateProduct(connection, product);
             }
         }
 
@@ -81,7 +99,7 @@ namespace CoreWebService
             {
                 connection.Open();
                 Product product = new Product { Id = id };
-                Program.DeleteProduct(connection, product);
+                Product.DeleteProduct(connection, product);
             }
         }
 
@@ -91,7 +109,7 @@ namespace CoreWebService
             using (var connection = new SqlConnection(connstring))
             {
                 connection.Open();
-                return Program.GetProduct(connection, id);
+                return Product.GetProduct(connection, id);
             }
         }
 

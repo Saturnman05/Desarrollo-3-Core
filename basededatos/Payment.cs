@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-using Core;
 
-namespace basededatos
+namespace Core
 {
     public class Payment
     {

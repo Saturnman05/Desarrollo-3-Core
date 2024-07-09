@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace basededatos
+namespace Core
 {
     public class User
     {

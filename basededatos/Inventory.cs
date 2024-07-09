@@ -6,13 +6,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace basededatos
+namespace Core
 {
     public class Inventory
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
+
+        public static void AddItem(SqlConnection con, Inventory item)
+        {
+            string sql = "INSERT INTO inventory (product_id, quantity) VALUES (@product_id, @quantity)";
+
+            using (var command = new SqlCommand(sql, con))
+            {
+                command.Parameters.AddWithValue("@product_id", item.ProductId);
+                command.Parameters.AddWithValue("@quantity", item.Quantity);
+                command.ExecuteNonQuery();
+            }
+        }
 
         public static List<Inventory> ListItems (SqlConnection con)
         {
@@ -40,18 +52,6 @@ namespace basededatos
             }
 
             return inventory;
-        }
-
-        public static void AddItem (SqlConnection con, Inventory item)
-        {
-            string sql = "INSERT INTO inventory (product_id, quantity) VALUES (@product_id, @quantity)";
-
-            using (var command = new SqlCommand(sql, con))
-            {
-                command.Parameters.AddWithValue("@product_id", item.ProductId);
-                command.Parameters.AddWithValue("@quantity", item.Quantity);
-                command.ExecuteNonQuery();
-            }
         }
 
         public static void UpdateInventory (SqlConnection con, Inventory item)
