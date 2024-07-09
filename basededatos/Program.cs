@@ -185,7 +185,10 @@ namespace Core
                 {
                     Console.WriteLine("\nGestión de la Tienda:");
                     Console.WriteLine("1. Gestión de Productos");
-                    Console.WriteLine("2. Salir");
+                    Console.WriteLine("3. Gestión de Inventario");
+                    Console.WriteLine("4. Pagos");
+                    Console.WriteLine("5. Orden");
+                    Console.WriteLine("6. Salir");
                     Console.Write("Seleccione una opción: ");
                     int choice = Convert.ToInt32(Console.ReadLine());
 
@@ -228,7 +231,7 @@ namespace Core
                             }
                         }
                     }
-                    else if (choice == 2)
+                    else if (choice == 6)
                     {
                         break;
                     }
