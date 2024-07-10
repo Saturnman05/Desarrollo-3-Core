@@ -65,15 +65,41 @@ namespace Core
             }
         }
 
-        public static void DeleteUser (SqlConnection con, User user)
+        public static void DeleteUser (SqlConnection con, int userId)
         {
             string sql = "DELETE FROM users WHERE id = @id";
 
             using (var command = new SqlCommand(sql, con))
             {
-                command.Parameters.AddWithValue("@id", user.Id);
+                command.Parameters.AddWithValue("@id", userId);
                 command.ExecuteNonQuery();
             }
+        }
+
+        public static User LogIn (SqlConnection con, string username, string password)
+        {
+            Core.User user = new Core.User();
+            string sql = $"SELECT * FROM users WHERE username = @username AND password = @password";
+
+            try
+            {
+                using (var command = new SqlCommand(sql, con))
+                using (var reader = command.ExecuteReader())
+                {
+                    user.Id = int.Parse(reader["id"].ToString());
+                    user.Username = reader["username"].ToString();
+                    user.Password = reader["password"].ToString();
+                } 
+            }
+            catch (Exception)
+            {
+
+                user.Id = 0;
+                user.Username = "0";
+                user.Password = "0";
+            }
+
+            return user;
         }
     }
 }

@@ -114,5 +114,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\basededatos\basededatos.csproj">
+      <Project>{98e7b324-f4c9-4f00-9b26-6651bc2bd5a3}</Project>
+      <Name>basededatos</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

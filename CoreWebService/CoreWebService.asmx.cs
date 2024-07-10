@@ -8,6 +8,7 @@ using Core;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Xml.Linq;
+using System.Data.Odbc;
 
 namespace CoreWebService
 {
@@ -39,6 +40,54 @@ namespace CoreWebService
                 };
 
                 Core.User.AddUser(connection, user);
+            }
+        }
+
+        [WebMethod]
+        public User GetUser (int userId)
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+                return Core.User.GetUser(con, userId);
+            }
+        }
+
+        [WebMethod]
+        public void PutUser (int userId, string username, string password, int rol)
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+
+                User user = new User()
+                {
+                    Id = userId,
+                    Username = username,
+                    Password = password,
+                    Rol = rol
+                };
+
+                Core.User.UpdateUser(con, user);
+            }
+        }
+
+        [WebMethod]
+        public void DeleteUser (int userId) {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+                Core.User.DeleteUser(con, userId);
+            }
+        }
+
+        [WebMethod]
+        public User LogInUser (string username, string password)
+        {
+            using (var con = new SqlConnection(connstring))
+            {
+                con.Open();
+                return Core.User.LogIn(con, username, password);
             }
         }
         
