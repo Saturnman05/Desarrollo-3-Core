@@ -72,5 +72,26 @@ namespace CoreFormsApp
 
             MessageBox.Show("El usuario se editó correctamente");
         }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void inventarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Principal formPrincipal = new Principal(userEditing);
+            formPrincipal.Show();
+            this.Hide();
+            formPrincipal.FormClosed += (s, args) => this.Close();
+        }
+
+        private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 form = new Form1();
+            form.ShowDialog();
+            this.Hide();
+            form.FormClosed += (s, args) => this.Close();
+        }
     }
 }
