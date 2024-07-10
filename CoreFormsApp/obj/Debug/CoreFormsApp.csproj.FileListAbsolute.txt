@@ -61,3 +61,6 @@ C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.csproj.Cor
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreForm.A70FE1FF.Up2Date
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.exe
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.pdb
+C:\Users\user\Desktop\basededatos\CoreFormsApp\bin\Debug\basededatos.exe
+C:\Users\user\Desktop\basededatos\CoreFormsApp\bin\Debug\basededatos.pdb
+C:\Users\user\Desktop\basededatos\CoreFormsApp\bin\Debug\basededatos.exe.config

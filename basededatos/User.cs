@@ -9,10 +9,10 @@ namespace Core
 {
     public class User
     {
-        public int Id { get; set; }
-        public string Username {  get; set; }
-        public string Password { get; set; }
-        public int Rol {  get; set; }
+        public int? Id { get; set; } = null;
+        public string Username { get; set; } = null;
+        public string Password { get; set; } = null;
+        public int? Rol { get; set; } = null;
 
         public static void AddUser (SqlConnection con,  User user)
         {
@@ -81,22 +81,23 @@ namespace Core
             Core.User user = new Core.User();
             string sql = $"SELECT * FROM users WHERE username = @username AND password = @password";
 
-            try
+            using (var command = new SqlCommand(sql, con))
             {
-                using (var command = new SqlCommand(sql, con))
+                command.Parameters.AddWithValue("@username", username);
+                command.Parameters.AddWithValue("@password", password);
                 using (var reader = command.ExecuteReader())
                 {
-                    user.Id = int.Parse(reader["id"].ToString());
-                    user.Username = reader["username"].ToString();
-                    user.Password = reader["password"].ToString();
-                } 
-            }
-            catch (Exception)
-            {
-
-                user.Id = 0;
-                user.Username = "0";
-                user.Password = "0";
+                    if (reader.Read())
+                    {
+                        user = new Core.User
+                        {
+                            Id = int.Parse(reader["id"].ToString()),
+                            Username = reader["username"].ToString(),
+                            Password = reader["password"].ToString(),
+                            Rol = int.Parse(reader["Rol"].ToString())
+                        };
+                    }
+                }
             }
 
             return user;

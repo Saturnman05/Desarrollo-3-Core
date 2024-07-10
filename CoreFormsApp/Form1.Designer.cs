@@ -33,6 +33,7 @@
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.btnLogIn = new System.Windows.Forms.Button();
+            this.ckbPass = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblUsername
@@ -55,16 +56,16 @@
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(345, 187);
+            this.txtUsername.Location = new System.Drawing.Point(317, 187);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(100, 26);
+            this.txtUsername.Size = new System.Drawing.Size(157, 26);
             this.txtUsername.TabIndex = 3;
             // 
             // txtContraseña
             // 
-            this.txtContraseña.Location = new System.Drawing.Point(346, 276);
+            this.txtContraseña.Location = new System.Drawing.Point(317, 276);
             this.txtContraseña.Name = "txtContraseña";
-            this.txtContraseña.Size = new System.Drawing.Size(100, 26);
+            this.txtContraseña.Size = new System.Drawing.Size(157, 26);
             this.txtContraseña.TabIndex = 4;
             // 
             // btnLogIn
@@ -77,11 +78,23 @@
             this.btnLogIn.UseVisualStyleBackColor = true;
             this.btnLogIn.Click += new System.EventHandler(this.btnLogIn_Click);
             // 
+            // ckbPass
+            // 
+            this.ckbPass.AutoSize = true;
+            this.ckbPass.Location = new System.Drawing.Point(490, 278);
+            this.ckbPass.Name = "ckbPass";
+            this.ckbPass.Size = new System.Drawing.Size(144, 24);
+            this.ckbPass.TabIndex = 6;
+            this.ckbPass.Text = "Ver contraseña";
+            this.ckbPass.UseVisualStyleBackColor = true;
+            this.ckbPass.CheckedChanged += new System.EventHandler(this.ckbPass_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(803, 573);
+            this.Controls.Add(this.ckbPass);
             this.Controls.Add(this.btnLogIn);
             this.Controls.Add(this.txtContraseña);
             this.Controls.Add(this.txtUsername);
@@ -101,6 +114,7 @@
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.TextBox txtContraseña;
         private System.Windows.Forms.Button btnLogIn;
+        private System.Windows.Forms.CheckBox ckbPass;
     }
 }
 
