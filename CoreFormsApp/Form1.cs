@@ -13,7 +13,7 @@ namespace CoreFormsApp
 {
     public partial class Form1 : Form
     {
-        private string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+        public string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
 
         public Form1()
         {
@@ -38,8 +38,12 @@ namespace CoreFormsApp
                 MessageBox.Show("Contraseña o usuario incorrecto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             // Redirigir a otra pantalla con los datos el usuario ingresado
+            Principal formPrincipal = new Principal(user);
+            formPrincipal.Show();
+            this.Hide();
+            formPrincipal.FormClosed += (s, args) => this.Close();
         }
 
         private void ckbPass_CheckedChanged(object sender, EventArgs e)

@@ -64,3 +64,5 @@ C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.pdb
 C:\Users\user\Desktop\basededatos\CoreFormsApp\bin\Debug\basededatos.exe
 C:\Users\user\Desktop\basededatos\CoreFormsApp\bin\Debug\basededatos.pdb
 C:\Users\user\Desktop\basededatos\CoreFormsApp\bin\Debug\basededatos.exe.config
+C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.Principal.resources
+C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.EditarMiUsuario.resources
