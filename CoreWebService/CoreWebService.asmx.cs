@@ -24,7 +24,7 @@ namespace CoreWebService
     {
         // private string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
 
-        // Usuario
+        #region Usuario
         [WebMethod]
         public void PostUser (string username, string password, int rol)
         {
@@ -90,8 +90,9 @@ namespace CoreWebService
                 return Core.User.LogIn(con, username, password);
             }
         }
-        
-        // Productos
+        #endregion
+
+        #region Productos
         [WebMethod]
         public List<Product> GetProducts ()
         {
@@ -161,8 +162,9 @@ namespace CoreWebService
                 return Product.GetProduct(connection, id);
             }
         }
+        #endregion
 
-        // Pedidos
+        #region Ordenes
         [WebMethod]
         public void PostOrder (int productId, int quantity, decimal totalPrice, DateTime date) 
         { 
@@ -222,8 +224,9 @@ namespace CoreWebService
                 Order.DeleteOrder(conn, orderId);
             }
         }
+        #endregion
 
-        // Pagos
+        #region Pagos
         [WebMethod]
         public void PostPayment (int order_id, decimal amount, DateTime date, string status) 
         {
@@ -262,8 +265,9 @@ namespace CoreWebService
                 Payment.DeletePayment(con, paymentId);
             }
         }
+        #endregion
 
-        // Inventario
+        #region Inventario
         [WebMethod]
         public List<Inventory> GetInventory () 
         {
@@ -318,5 +322,6 @@ namespace CoreWebService
                 Inventory.DeleteItem(con, itemId);
             }
         }
+        #endregion
     }
 }
