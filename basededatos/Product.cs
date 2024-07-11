@@ -52,34 +52,24 @@ namespace Core
 
         public static void AddProduct(SqlConnection connection, Product product)
         {
-            string sql = "INSERT INTO products (name, description, price, stock) VALUES (@name, @description, @price, @stock)";
-
-            if (product == null)
+            string otroSql = "SELECT COUNT(*) AS [idPrev] FROM products";
+            int id = 0;
+            using (var com = new SqlCommand(otroSql, connection))
             {
-                Console.Write("Nombre del producto: ");
-                string name = Console.ReadLine();
-                Console.Write("Descripción del producto: ");
-                string description = Console.ReadLine();
-                Console.Write("Precio del producto: ");
-                decimal price = Convert.ToDecimal(Console.ReadLine());
-                Console.Write("Cantidad en stock: ");
-                int stock = Convert.ToInt32(Console.ReadLine());
-
-                using (var command = new SqlCommand(sql, connection))
+                using (var reader = com.ExecuteReader())
                 {
-                    command.Parameters.AddWithValue("@name", name);
-                    command.Parameters.AddWithValue("@description", description);
-                    command.Parameters.AddWithValue("@price", price);
-                    command.Parameters.AddWithValue("@stock", stock);
-                    command.ExecuteNonQuery();
+                    if (reader.Read())
+                    {
+                        id = int.Parse(reader["idPrev"].ToString()) + 1;
+                    }
                 }
-
-                Console.WriteLine("Producto añadido.");
-                return;
             }
+
+            string sql = "INSERT INTO products ([id], [name], [description], [price], [stock]) VALUES (@id, @name, @description, @price, @stock)";
 
             using (var command = new SqlCommand(sql, connection))
             {
+                command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@name", product.Name);
                 command.Parameters.AddWithValue("@description", product.Description);
                 command.Parameters.AddWithValue("@price", product.Price);
@@ -90,33 +80,33 @@ namespace Core
 
         public static void UpdateProduct(SqlConnection connection, Product product)
         {
-            string sql = "UPDATE products SET name = @name, description = @description, price = @price, stock = @stock WHERE id = @id";
+            string sql = "UPDATE products SET [name] = @name, [description] = @description, [price] = @price, [stock] = @stock WHERE [id] = @id";
 
-            if (product == null)
-            {
-                Console.Write("ID del producto a actualizar: ");
-                int id = Convert.ToInt32(Console.ReadLine());
-                Console.Write("Nuevo nombre del producto: ");
-                string name = Console.ReadLine();
-                Console.Write("Nueva descripción del producto: ");
-                string description = Console.ReadLine();
-                Console.Write("Nuevo precio del producto: ");
-                decimal price = Convert.ToDecimal(Console.ReadLine());
-                Console.Write("Nueva cantidad en stock: ");
-                int stock = Convert.ToInt32(Console.ReadLine());
+            //if (product == null)
+            //{
+            //    Console.Write("ID del producto a actualizar: ");
+            //    int id = Convert.ToInt32(Console.ReadLine());
+            //    Console.Write("Nuevo nombre del producto: ");
+            //    string name = Console.ReadLine();
+            //    Console.Write("Nueva descripción del producto: ");
+            //    string description = Console.ReadLine();
+            //    Console.Write("Nuevo precio del producto: ");
+            //    decimal price = Convert.ToDecimal(Console.ReadLine());
+            //    Console.Write("Nueva cantidad en stock: ");
+            //    int stock = Convert.ToInt32(Console.ReadLine());
 
-                using (var command = new SqlCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@name", name);
-                    command.Parameters.AddWithValue("@description", description);
-                    command.Parameters.AddWithValue("@price", price);
-                    command.Parameters.AddWithValue("@stock", stock);
-                    command.Parameters.AddWithValue("@id", id);
-                    command.ExecuteNonQuery();
-                }
+            //    using (var command = new SqlCommand(sql, connection))
+            //    {
+            //        command.Parameters.AddWithValue("@name", name);
+            //        command.Parameters.AddWithValue("@description", description);
+            //        command.Parameters.AddWithValue("@price", price);
+            //        command.Parameters.AddWithValue("@stock", stock);
+            //        command.Parameters.AddWithValue("@id", id);
+            //        command.ExecuteNonQuery();
+            //    }
 
-                Console.WriteLine("Producto actualizado.");
-            }
+            //    Console.WriteLine("Producto actualizado.");
+            //}
 
             using (var command = new SqlCommand(sql, connection))
             {
@@ -131,7 +121,7 @@ namespace Core
 
         public static void DeleteProduct(SqlConnection connection, Product product)
         {
-            string sql = "DELETE FROM products WHERE id = @id";
+            string sql = "DELETE FROM products WHERE [id] = @id";
 
             if (product == null)
             {
@@ -158,7 +148,7 @@ namespace Core
         {
             Product product = new Product();
 
-            string sql = $"SELECT * FROM products WHERE id = {id}";
+            string sql = $"SELECT * FROM products WHERE [id] = {id}";
 
             using (var command = new SqlCommand(sql, connection))
             using (var reader = command.ExecuteReader())

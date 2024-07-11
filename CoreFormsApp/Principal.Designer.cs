@@ -33,8 +33,6 @@
             this.editarMiUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ordenesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.btnCrear = new System.Windows.Forms.Button();
@@ -42,12 +40,13 @@
             this.lblName = new System.Windows.Forms.Label();
             this.lblPrecio = new System.Windows.Forms.Label();
             this.txtPrecio = new System.Windows.Forms.TextBox();
-            this.txtStock = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.lblStock = new System.Windows.Forms.Label();
+            this.txtStock = new System.Windows.Forms.TextBox();
             this.lblDescription = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.rtxtDesc = new System.Windows.Forms.RichTextBox();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.inventarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -58,11 +57,10 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
-            this.usuarioToolStripMenuItem,
-            this.ordenesToolStripMenuItem});
+            this.inventarioToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 33);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -97,28 +95,14 @@
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
-            // usuarioToolStripMenuItem
-            // 
-            this.usuarioToolStripMenuItem.Checked = true;
-            this.usuarioToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.usuarioToolStripMenuItem.Name = "usuarioToolStripMenuItem";
-            this.usuarioToolStripMenuItem.Size = new System.Drawing.Size(96, 30);
-            this.usuarioToolStripMenuItem.Text = "Usuarios";
-            // 
-            // ordenesToolStripMenuItem
-            // 
-            this.ordenesToolStripMenuItem.Name = "ordenesToolStripMenuItem";
-            this.ordenesToolStripMenuItem.Size = new System.Drawing.Size(95, 30);
-            this.ordenesToolStripMenuItem.Text = "Órdenes";
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnEliminar);
             this.groupBox1.Controls.Add(this.btnActualizar);
-            this.groupBox1.Controls.Add(this.richTextBox1);
+            this.groupBox1.Controls.Add(this.rtxtDesc);
             this.groupBox1.Controls.Add(this.lblDescription);
+            this.groupBox1.Controls.Add(this.lblStock);
             this.groupBox1.Controls.Add(this.txtStock);
-            this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.lblPrecio);
             this.groupBox1.Controls.Add(this.txtPrecio);
             this.groupBox1.Controls.Add(this.lblName);
@@ -146,6 +130,7 @@
             this.btnCrear.TabIndex = 1;
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
             // cmbProducts
             // 
@@ -181,21 +166,21 @@
             this.txtPrecio.Size = new System.Drawing.Size(138, 26);
             this.txtPrecio.TabIndex = 3;
             // 
+            // lblStock
+            // 
+            this.lblStock.AutoSize = true;
+            this.lblStock.Location = new System.Drawing.Point(18, 179);
+            this.lblStock.Name = "lblStock";
+            this.lblStock.Size = new System.Drawing.Size(148, 20);
+            this.lblStock.TabIndex = 6;
+            this.lblStock.Text = "Cantidad disponible";
+            // 
             // txtStock
             // 
-            this.txtStock.AutoSize = true;
-            this.txtStock.Location = new System.Drawing.Point(18, 179);
+            this.txtStock.Location = new System.Drawing.Point(172, 179);
             this.txtStock.Name = "txtStock";
-            this.txtStock.Size = new System.Drawing.Size(148, 20);
-            this.txtStock.TabIndex = 6;
-            this.txtStock.Text = "Cantidad disponible";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(172, 179);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(138, 26);
-            this.textBox3.TabIndex = 5;
+            this.txtStock.Size = new System.Drawing.Size(138, 26);
+            this.txtStock.TabIndex = 5;
             // 
             // lblDescription
             // 
@@ -206,13 +191,13 @@
             this.lblDescription.TabIndex = 7;
             this.lblDescription.Text = "Descripción";
             // 
-            // richTextBox1
+            // rtxtDesc
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(372, 67);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(315, 138);
-            this.richTextBox1.TabIndex = 8;
-            this.richTextBox1.Text = "";
+            this.rtxtDesc.Location = new System.Drawing.Point(372, 67);
+            this.rtxtDesc.Name = "rtxtDesc";
+            this.rtxtDesc.Size = new System.Drawing.Size(315, 138);
+            this.rtxtDesc.TabIndex = 8;
+            this.rtxtDesc.Text = "";
             // 
             // btnActualizar
             // 
@@ -222,6 +207,7 @@
             this.btnActualizar.TabIndex = 9;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnEliminar
             // 
@@ -231,6 +217,13 @@
             this.btnEliminar.TabIndex = 10;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
+            // inventarioToolStripMenuItem
+            // 
+            this.inventarioToolStripMenuItem.Name = "inventarioToolStripMenuItem";
+            this.inventarioToolStripMenuItem.Size = new System.Drawing.Size(107, 29);
+            this.inventarioToolStripMenuItem.Text = "Inventario";
             // 
             // Principal
             // 
@@ -256,8 +249,6 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem usuarioToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ordenesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editarMiUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cerrarSesionToolStripMenuItem;
@@ -265,14 +256,15 @@
         private System.Windows.Forms.Button btnCrear;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.ComboBox cmbProducts;
-        private System.Windows.Forms.Label txtStock;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label lblStock;
+        private System.Windows.Forms.TextBox txtStock;
         private System.Windows.Forms.Label lblPrecio;
         private System.Windows.Forms.TextBox txtPrecio;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnActualizar;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox rtxtDesc;
+        private System.Windows.Forms.ToolStripMenuItem inventarioToolStripMenuItem;
     }
 }
