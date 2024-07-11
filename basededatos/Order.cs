@@ -17,10 +17,11 @@ namespace Core
 
         public static void AddOrder (SqlConnection con, Order order)
         {
-            string sql = "INSERT INTO orders (product_id, quantity, total_price, date) VALUES (@product_id, @quantity, @total_price, @date)";
+            string sql = "INSERT INTO orders ([id], product_id, quantity, total_price, date) VALUES (@id, @product_id, @quantity, @total_price, @date)";
 
             using (var command = new SqlCommand(sql, con))
             {
+                command.Parameters.AddWithValue("@id", order.Id);
                 command.Parameters.AddWithValue("@product_id", order.ProductId);
                 command.Parameters.AddWithValue("@quantity", order.Quantity);
                 command.Parameters.AddWithValue("@total_price", order.TotalPrice);

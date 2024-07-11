@@ -45,6 +45,7 @@ namespace CoreAPI.Controllers
 
                 var newProduct = new Product()
                 {
+                    Id = product.Id,
                     Description = product.Description,
                     Name = product.Name,
                     Price = product.Price,
