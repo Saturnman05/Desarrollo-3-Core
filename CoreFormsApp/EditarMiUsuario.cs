@@ -13,8 +13,6 @@ namespace CoreFormsApp
 {
     public partial class EditarMiUsuario : Form
     {
-        public string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
-
         private Core.User userEditing;
         private Core.User userEdited;
 
@@ -59,7 +57,7 @@ namespace CoreFormsApp
                 return;
             }
 
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
 

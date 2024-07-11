@@ -8,13 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Core;
 
 namespace CoreFormsApp
 {
     public partial class Form1 : Form
     {
-        public string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
-
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +26,7 @@ namespace CoreFormsApp
             string pass = txtContraseña.Text;
             Core.User user;
 
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
                 user = Core.User.LogIn(con, username, pass);

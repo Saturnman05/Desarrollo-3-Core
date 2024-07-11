@@ -43,7 +43,7 @@ namespace CoreFormsApp
         {
             List<string> productNames = new List<string>();
 
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
                 string sql = "SELECT name FROM products";
@@ -162,7 +162,7 @@ namespace CoreFormsApp
                 Description = rtxtDesc.Text
             };
 
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
                 Core.Product.AddProduct(con, product);
@@ -211,7 +211,7 @@ namespace CoreFormsApp
                 Description = rtxtDesc.Text
             };
 
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
                 Core.Product.UpdateProduct(con, product);
@@ -233,7 +233,7 @@ namespace CoreFormsApp
                 Id = cmbProducts.SelectedIndex + 1,
             };
 
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
                 Core.Product.DeleteProduct(con, product);
