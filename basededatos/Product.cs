@@ -23,7 +23,7 @@ namespace Core
             using (var command = new SqlCommand(sql, connection))
             using (var reader = command.ExecuteReader())
             {
-                Console.WriteLine("Lista de Productos:");
+                // Console.WriteLine("Lista de Productos:");
                 while (reader.Read())
                 {
                     int id = int.Parse(reader["id"].ToString());
@@ -43,7 +43,7 @@ namespace Core
 
                     productos.Add(product);
 
-                    Console.WriteLine($"{product.Id}: {product.Name} - {product.Description} - ${product.Price} - Stock: {product.Stock}");
+                    // Console.WriteLine($"{product.Id}: {product.Name} - {product.Description} - ${product.Price} - Stock: {product.Stock}");
                 }
             }
 

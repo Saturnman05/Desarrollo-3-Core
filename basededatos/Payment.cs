@@ -61,5 +61,47 @@ namespace Core
                 command.ExecuteNonQuery();
             }
         }
+
+        public static List<Payment> ListPayments (SqlConnection con)
+        {
+            List<Payment> paymentList = new List<Payment>();
+            string sql = "SELECT * FROM payments";
+
+            using (var command = new SqlCommand(sql, con))
+            {
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Payment payment = new Payment()
+                        {
+                            Id = int.Parse(reader["id"].ToString()),
+                            OrderId = int.Parse(reader["order_id"].ToString()),
+                            Amount = decimal.Parse(reader["amount"].ToString()),
+                            Date = DateTime.Parse(reader["date"].ToString()),
+                            Status = reader["status"].ToString(),
+                        };
+
+                        paymentList.Add(payment);
+                    }
+                }
+            }
+
+            return paymentList;
+        }
+
+        public static void UpdatePayment(SqlConnection con, Payment payment) {
+            string sql = "UPDATE payments SET [order_id] = @order_id, [amount] = @amount, [date] = @date, [status] = @status WHERE [id] = @id";
+
+            using (var command = new SqlCommand(sql, con))
+            {
+                command.Parameters.AddWithValue("@order_id", payment.OrderId);
+                command.Parameters.AddWithValue("@amount", payment.Amount);
+                command.Parameters.AddWithValue("@date", payment.Date);
+                command.Parameters.AddWithValue("@status", payment.Status);
+                command.Parameters.AddWithValue("@id", payment.Id);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

@@ -23,11 +23,11 @@ namespace CoreAPI.Controllers
         }
 
         // GET api/<OrderController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<OrderController>
         [HttpPost]
