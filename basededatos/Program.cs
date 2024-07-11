@@ -10,6 +10,8 @@ namespace Core
 {
     public class Program
     {
+        public static string ConnString = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+
         static void Main(string[] args)
         {
             string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";

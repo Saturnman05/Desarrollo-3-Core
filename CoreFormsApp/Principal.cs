@@ -13,7 +13,6 @@ namespace CoreFormsApp
 {
     public partial class Principal : Form
     {
-        public string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
         private Core.User currentUser;
         private string agregarProducto = "Agregar Producto";
 
@@ -109,18 +108,24 @@ namespace CoreFormsApp
                 btnCrear.Enabled = false;
                 btnActualizar.Enabled = true;
                 btnEliminar.Enabled = true;
+            }
+            else
+            {
+                btnCrear.Enabled = false;
+                btnActualizar.Enabled = false;
+                btnEliminar.Enabled = false;
+            }
 
-                int indice = cmbProducts.SelectedIndex + 1;
-                using (var con = new SqlConnection(connstring))
-                {
-                    con.Open();
+            int indice = cmbProducts.SelectedIndex + 1;
+            using (var con = new SqlConnection(Core.Program.ConnString))
+            {
+                con.Open();
 
-                    Core.Product product = Core.Product.GetProduct(con, indice);
-                    txtNombre.Text = product.Name;
-                    txtPrecio.Text = product.Price.ToString();
-                    txtStock.Text = product.Stock.ToString();
-                    rtxtDesc.Text = product.Description;
-                }
+                Core.Product product = Core.Product.GetProduct(con, indice);
+                txtNombre.Text = product.Name;
+                txtPrecio.Text = product.Price.ToString();
+                txtStock.Text = product.Stock.ToString();
+                rtxtDesc.Text = product.Description;
             }
         }
 

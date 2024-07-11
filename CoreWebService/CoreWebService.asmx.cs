@@ -22,13 +22,13 @@ namespace CoreWebService
     // [System.Web.Script.Services.ScriptService]
     public class CoreWebService : System.Web.Services.WebService
     {
-        private string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
+        // private string connstring = "Data Source = DESKTOP-MFFG200;Initial Catalog=CoreDB;Integrated Security=true";
 
         // Usuario
         [WebMethod]
         public void PostUser (string username, string password, int rol)
         {
-            using (var connection = new SqlConnection(connstring))
+            using (var connection = new SqlConnection(Program.ConnString))
             {
                 connection.Open();
 
@@ -46,7 +46,7 @@ namespace CoreWebService
         [WebMethod]
         public User GetUser (int userId)
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
                 return Core.User.GetUser(con, userId);
@@ -56,7 +56,7 @@ namespace CoreWebService
         [WebMethod]
         public void PutUser (int userId, string username, string password, int rol)
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
 
@@ -74,7 +74,7 @@ namespace CoreWebService
 
         [WebMethod]
         public void DeleteUser (int userId) {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
                 Core.User.DeleteUser(con, userId);
@@ -84,7 +84,7 @@ namespace CoreWebService
         [WebMethod]
         public User LogInUser (string username, string password)
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
                 return Core.User.LogIn(con, username, password);
@@ -95,7 +95,7 @@ namespace CoreWebService
         [WebMethod]
         public List<Product> GetProducts ()
         {
-            using (var connection = new SqlConnection(connstring))
+            using (var connection = new SqlConnection(Program.ConnString))
             {
                 connection.Open();
                 return Product.ListProducts(connection);
@@ -105,7 +105,7 @@ namespace CoreWebService
         [WebMethod]
         public void PostProducts (string name, string description, decimal price, int stock)
         {
-            using (var connection = new SqlConnection(connstring))
+            using (var connection = new SqlConnection(Program.ConnString))
             {
                 connection.Open();
 
@@ -124,7 +124,7 @@ namespace CoreWebService
         [WebMethod]
         public void PutProduct (int id, string name, string description, decimal price, int stock)
         {
-            using (var connection = new SqlConnection(connstring))
+            using (var connection = new SqlConnection(Program.ConnString))
             {
                 connection.Open();
 
@@ -144,7 +144,7 @@ namespace CoreWebService
         [WebMethod]
         public void DeleteProduct (int id) 
         {
-            using (var connection = new SqlConnection(connstring))
+            using (var connection = new SqlConnection(Program.ConnString))
             {
                 connection.Open();
                 Product product = new Product { Id = id };
@@ -155,7 +155,7 @@ namespace CoreWebService
         [WebMethod]
         public Product GetProduct (int id) 
         {
-            using (var connection = new SqlConnection(connstring))
+            using (var connection = new SqlConnection(Program.ConnString))
             {
                 connection.Open();
                 return Product.GetProduct(connection, id);
@@ -166,7 +166,7 @@ namespace CoreWebService
         [WebMethod]
         public void PostOrder (int productId, int quantity, decimal totalPrice, DateTime date) 
         { 
-            using (var conn = new SqlConnection(connstring))
+            using (var conn = new SqlConnection(Program.ConnString))
             {
                 conn.Open();
 
@@ -185,7 +185,7 @@ namespace CoreWebService
         [WebMethod]
         public List<Order> GetOrders () 
         {
-            using (var conn = new SqlConnection(connstring))
+            using (var conn = new SqlConnection(Program.ConnString))
             {
                 conn.Open();
 
@@ -196,7 +196,7 @@ namespace CoreWebService
         [WebMethod]
         public void PutOrder (int orderId, int productId, int quantity, decimal totalPrice, DateTime date) 
         {
-            using (var conn = new SqlConnection(connstring))
+            using (var conn = new SqlConnection(Program.ConnString))
             {
                 conn.Open();
 
@@ -216,7 +216,7 @@ namespace CoreWebService
         [WebMethod]
         public void DeleteOrder (int orderId) 
         {
-            using (var conn = new SqlConnection(connstring))
+            using (var conn = new SqlConnection(Program.ConnString))
             {
                 conn.Open();
                 Order.DeleteOrder(conn, orderId);
@@ -227,7 +227,7 @@ namespace CoreWebService
         [WebMethod]
         public void PostPayment (int order_id, decimal amount, DateTime date, string status) 
         {
-            using (var conn = new SqlConnection(connstring))
+            using (var conn = new SqlConnection(Program.ConnString))
             {
                 conn.Open();
 
@@ -246,7 +246,7 @@ namespace CoreWebService
         [WebMethod]
         public Payment GetPayment (int paymentId) 
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
                 return Payment.GetPayment(con, paymentId);
@@ -256,7 +256,7 @@ namespace CoreWebService
         [WebMethod]
         public void DeletePayment (int paymentId) 
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
                 Payment.DeletePayment(con, paymentId);
@@ -267,7 +267,7 @@ namespace CoreWebService
         [WebMethod]
         public List<Inventory> GetInventory () 
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
                 return Inventory.ListItems(con);
@@ -277,7 +277,7 @@ namespace CoreWebService
         [WebMethod]
         public void PostInventoryItem (int productId, int quantity) 
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
 
@@ -294,7 +294,7 @@ namespace CoreWebService
         [WebMethod]
         public void PutIventoryItem (int itemId, int productId, int quantity) 
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
 
@@ -312,7 +312,7 @@ namespace CoreWebService
         [WebMethod]
         public void DeleteIventoryItem (int itemId) 
         {
-            using (var con = new SqlConnection(connstring))
+            using (var con = new SqlConnection(Program.ConnString))
             {
                 con.Open();
                 Inventory.DeleteItem(con, itemId);
