@@ -131,6 +131,9 @@ namespace CoreFormsApp
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
+            var siNo = MessageBox.Show("¿Seguro que desea aregar el nuevo producto?", "Agregar producto", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (siNo == DialogResult.No) return;
+
             decimal precio;
             int stock;
 
@@ -154,18 +157,27 @@ namespace CoreFormsApp
                 return;
             }
 
-            Core.Product product = new Core.Product() {
-                Id = cmbProducts.Items.Count,
-                Name = txtNombre.Text,
-                Price = precio,
-                Stock = stock,
-                Description = rtxtDesc.Text
-            };
-
             using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
-                Core.Product.AddProduct(con, product);
+
+                Core.Product product = new Core.Product()
+                {
+                    Name = txtNombre.Text,
+                    Price = precio,
+                    Stock = stock,
+                    Description = rtxtDesc.Text
+                };
+
+                int id = Core.Product.AddProduct(con, product);
+
+                Core.Inventory item = new Core.Inventory()
+                {
+                    ProductId = id,
+                    Quantity = product.Stock
+                };
+
+                Core.Inventory.AddItem(con, item);
             }
 
             MessageBox.Show("Se agregó el producto correctamente");
@@ -179,6 +191,9 @@ namespace CoreFormsApp
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
+            var siNo = MessageBox.Show("¿Seguro que desea actualizar producto?", "Actualizar producto", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (siNo == DialogResult.No) return;
+
             decimal precio;
             int stock;
 
@@ -228,6 +243,9 @@ namespace CoreFormsApp
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
+            var siNo = MessageBox.Show("¿Seguro que desea eliminar el producto? Esta acción es permanente.", "Eliminar producto", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (siNo == DialogResult.No) return;
+
             Core.Product product = new Core.Product()
             {
                 Id = cmbProducts.SelectedIndex + 1,
@@ -236,6 +254,10 @@ namespace CoreFormsApp
             using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
+
+                int itemId = Core.Inventory.GetItemId(con, product);
+                Core.Inventory.DeleteItem(con, itemId);
+
                 Core.Product.DeleteProduct(con, product);
             }
 

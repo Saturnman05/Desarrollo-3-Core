@@ -77,5 +77,20 @@ namespace Core
                 command.ExecuteNonQuery();
             }
         }
+
+        public static int GetItemId (SqlConnection con, Product product)
+        {
+            int id = 0;
+
+            string sql = "SELECT inventory.id FROM inventory JOIN products ON inventory.product_id = products.id WHERE product_id = @product_id";
+
+            using (var command = new SqlCommand(sql, con)) 
+            {
+                command.Parameters.AddWithValue("@product_id", product.Id);
+                id = Convert.ToInt32(command.ExecuteScalar());
+            }
+
+            return id;
+        }
     }
 }

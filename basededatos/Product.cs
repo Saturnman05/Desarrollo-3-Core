@@ -50,32 +50,41 @@ namespace Core
             return productos;
         }
 
-        public static void AddProduct(SqlConnection connection, Product product)
+        public static int AddProduct(SqlConnection connection, Product product)
         {
-            string otroSql = "SELECT COUNT(*) AS [idPrev] FROM products";
-            int id = 0;
-            using (var com = new SqlCommand(otroSql, connection))
+            // Consulta para obtener todos los IDs existentes
+            string existingIdsSql = "SELECT [id] FROM products";
+            var existingIds = new List<int>();
+
+            using (var command = new SqlCommand(existingIdsSql, connection))
+            using (var reader = command.ExecuteReader())
             {
-                using (var reader = com.ExecuteReader())
+                while (reader.Read())
                 {
-                    if (reader.Read())
-                    {
-                        id = int.Parse(reader["idPrev"].ToString()) + 1;
-                    }
+                    existingIds.Add(Convert.ToInt32(reader["id"]));
                 }
             }
 
-            string sql = "INSERT INTO products ([id], [name], [description], [price], [stock]) VALUES (@id, @name, @description, @price, @stock)";
-
-            using (var command = new SqlCommand(sql, connection))
+            // Encuentra el primer ID disponible
+            int newProductId = 1;
+            while (existingIds.Contains(newProductId))
             {
-                command.Parameters.AddWithValue("@id", id);
-                command.Parameters.AddWithValue("@name", product.Name);
-                command.Parameters.AddWithValue("@description", product.Description);
-                command.Parameters.AddWithValue("@price", product.Price);
-                command.Parameters.AddWithValue("@stock", product.Stock);
-                command.ExecuteNonQuery();
+                newProductId++;
             }
+
+            // Inserta el nuevo producto con el ID calculado
+            string insertSql = "INSERT INTO products ([id], [name], [description], [price], [stock]) VALUES (@id, @name, @description, @price, @stock);";
+            using (var insertCommand = new SqlCommand(insertSql, connection))
+            {
+                insertCommand.Parameters.AddWithValue("@id", newProductId);
+                insertCommand.Parameters.AddWithValue("@name", product.Name);
+                insertCommand.Parameters.AddWithValue("@description", product.Description);
+                insertCommand.Parameters.AddWithValue("@price", product.Price);
+                insertCommand.Parameters.AddWithValue("@stock", product.Stock);
+                insertCommand.ExecuteNonQuery();
+            }
+
+            return newProductId;
         }
 
         public static void UpdateProduct(SqlConnection connection, Product product)
