@@ -78,6 +78,26 @@ namespace Core
             }
         }
 
+        public static Inventory GetItem(SqlConnection con, int id)
+        {
+            Inventory item = new Inventory() { Id = 0, ProductId = 0, Quantity = 0};
+
+            string sql = $"SELECT * FROM inventory WHERE [id] = {id}";
+
+            using (var command = new SqlCommand(sql, con))
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    item.Id = id;
+                    item.ProductId = int.Parse(reader["product_id"].ToString());
+                    item.Quantity = int.Parse(reader["quantity"].ToString());
+                }
+            }
+
+            return item;
+        }
+
         public static int GetItemId (SqlConnection con, Product product)
         {
             int id = 0;
