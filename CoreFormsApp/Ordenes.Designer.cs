@@ -53,7 +53,7 @@
             this.regresarToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 36);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -71,6 +71,7 @@
             this.cmbNumeroOrden.Name = "cmbNumeroOrden";
             this.cmbNumeroOrden.Size = new System.Drawing.Size(90, 28);
             this.cmbNumeroOrden.TabIndex = 1;
+            this.cmbNumeroOrden.SelectedIndexChanged += new System.EventHandler(this.cmbNumeroOrden_SelectedIndexChanged);
             // 
             // lblNumeroOrden
             // 
@@ -97,6 +98,7 @@
             this.cmbProductos.Name = "cmbProductos";
             this.cmbProductos.Size = new System.Drawing.Size(143, 28);
             this.cmbProductos.TabIndex = 3;
+            this.cmbProductos.SelectedIndexChanged += new System.EventHandler(this.cmbProductos_SelectedIndexChanged);
             // 
             // txtCantidadProducto
             // 
@@ -135,7 +137,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(312, 215);
+            this.label1.Location = new System.Drawing.Point(312, 212);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(18, 20);
             this.label1.TabIndex = 9;
@@ -174,7 +176,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtDate);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblPrecioTotal);
             this.Controls.Add(this.txtPrecioTotal);
             this.Controls.Add(this.lblCantidad);
@@ -184,6 +185,7 @@
             this.Controls.Add(this.lblNumeroOrden);
             this.Controls.Add(this.cmbNumeroOrden);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.label1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Ordenes";
             this.Text = "Ordenes";

@@ -21,7 +21,6 @@ namespace CoreFormsApp
         {
             InitializeComponent();
             txtPass.ReadOnly = true;
-            txtPass.PasswordChar = '*';
             txtRol.ReadOnly = true;
             this.currentUser = currentUser;
 
