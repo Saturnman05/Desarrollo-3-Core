@@ -174,7 +174,7 @@ namespace Core
                     product.Description = reader["description"].ToString();
                     product.Price = decimal.Parse(reader["price"].ToString());
                     product.Stock = int.Parse(reader["stock"].ToString());
-                    product.Image = (byte?[])reader["image"];
+                    product.Image = reader["image"] != DBNull.Value ? (byte?[])reader["image"] : null;
                 }
             }
 
