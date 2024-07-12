@@ -42,7 +42,7 @@ namespace CoreFormsApp
             Principal formPrincipal = new Principal(user);
             formPrincipal.Show();
             this.Hide();
-            formPrincipal.FormClosed += (s, args) => this.Close();
+            formPrincipal.FormClosed += (s, args) => this.Show();
         }
 
         private void ckbPass_CheckedChanged(object sender, EventArgs e)

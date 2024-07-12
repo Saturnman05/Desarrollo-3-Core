@@ -22,12 +22,21 @@ namespace CoreFormsApp
             this.userEditing = userEditing;
             this.userEdited = userEdited;
 
+            if (userEditing == userEdited)
+            {
+                this.Text = "Editar mi usuario";
+            }
+            else
+            {
+                this.Text = "Editar usuario";
+            }
+
             cmbRol.Items.AddRange(new object[] {
                 "Administrador", // Rol 0
                 "Usuario"       // Rol 1
             });
 
-            if (userEdited.Rol != 0)
+            if (userEditing.Rol != 0 && userEdited.Rol != 0)
             {
                 cmbRol.SelectedIndex = 1; // Establecer la opción predeterminada
                 cmbRol.Enabled = false; // Bloquear el ComboBox
@@ -90,6 +99,14 @@ namespace CoreFormsApp
             form.ShowDialog();
             this.Hide();
             form.FormClosed += (s, args) => this.Close();
+        }
+
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Usuarios usuariosForm = new Usuarios(userEditing);
+            usuariosForm.Show();
+            this.Hide();
+            usuariosForm.FormClosed += (s, args) => this.Close();
         }
     }
 }

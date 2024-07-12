@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,8 +22,8 @@ namespace CoreFormsApp
             InitializeComponent();
             this.currentUser = currentUser;
             
-            if (currentUser.Rol != 0) 
-                //usuarioToolStripMenuItem.Visible = false;
+            //if (currentUser.Rol != 0)
+            //    usuariosToolStripMenuItem.Visible = false;
 
             btnCrear.Enabled = false;
             btnActualizar.Enabled = false;
@@ -268,6 +269,14 @@ namespace CoreFormsApp
             txtPrecio.Clear();
             txtStock.Clear();
             rtxtDesc.Clear();
+        }
+
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Usuarios usuariosForm = new Usuarios(currentUser);
+            usuariosForm.Show();
+            this.Hide();
+            usuariosForm.FormClosed += (s, args) => this.Show();
         }
     }
 }
