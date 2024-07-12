@@ -14,6 +14,7 @@ namespace Core
         public string Description { get; set; }
         public decimal Price {  get; set; }
         public int Stock { get; set; }
+        public byte?[] Image { get; set; } = null;
 
         public static List<Product> ListProducts(SqlConnection connection)
         {
@@ -31,6 +32,7 @@ namespace Core
                     string description = reader["description"].ToString();
                     decimal price = decimal.Parse(reader["price"].ToString());
                     int stock = int.Parse(reader["stock"].ToString());
+                    byte?[] image = reader["image"] != DBNull.Value ? (byte?[])reader["image"] : null;
 
                     Product product = new Product()
                     {
@@ -38,7 +40,8 @@ namespace Core
                         Name = name,
                         Description = description,
                         Price = price,
-                        Stock = stock
+                        Stock = stock,
+                        Image = image
                     };
 
                     productos.Add(product);
@@ -73,7 +76,7 @@ namespace Core
             }
 
             // Inserta el nuevo producto con el ID calculado
-            string insertSql = "INSERT INTO products ([id], [name], [description], [price], [stock]) VALUES (@id, @name, @description, @price, @stock);";
+            string insertSql = "INSERT INTO products ([id], [name], [description], [price], [stock], [image]) VALUES (@id, @name, @description, @price, @stock, @image);";
             using (var insertCommand = new SqlCommand(insertSql, connection))
             {
                 insertCommand.Parameters.AddWithValue("@id", newProductId);
@@ -81,6 +84,7 @@ namespace Core
                 insertCommand.Parameters.AddWithValue("@description", product.Description);
                 insertCommand.Parameters.AddWithValue("@price", product.Price);
                 insertCommand.Parameters.AddWithValue("@stock", product.Stock);
+                insertCommand.Parameters.AddWithValue("@image", product.Image);
                 insertCommand.ExecuteNonQuery();
             }
 
@@ -89,7 +93,7 @@ namespace Core
 
         public static void UpdateProduct(SqlConnection connection, Product product)
         {
-            string sql = "UPDATE products SET [name] = @name, [description] = @description, [price] = @price, [stock] = @stock WHERE [id] = @id";
+            string sql = "UPDATE products SET [name] = @name, [description] = @description, [price] = @price, [stock] = @stock, [image] = @image WHERE [id] = @id";
 
             //if (product == null)
             //{
@@ -123,6 +127,7 @@ namespace Core
                 command.Parameters.AddWithValue("@description", product.Description);
                 command.Parameters.AddWithValue("@price", product.Price);
                 command.Parameters.AddWithValue("@stock", product.Stock);
+                command.Parameters.AddWithValue("@image", product.Image);
                 command.Parameters.AddWithValue("@id", product.Id);
                 command.ExecuteNonQuery();
             }
@@ -169,6 +174,7 @@ namespace Core
                     product.Description = reader["description"].ToString();
                     product.Price = decimal.Parse(reader["price"].ToString());
                     product.Stock = int.Parse(reader["stock"].ToString());
+                    product.Image = (byte?[])reader["image"];
                 }
             }
 
