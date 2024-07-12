@@ -278,5 +278,13 @@ namespace CoreFormsApp
             this.Hide();
             usuariosForm.FormClosed += (s, args) => this.Show();
         }
+
+        private void órdenesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Ordenes ordenesForm = new Ordenes(currentUser);
+            ordenesForm.Show();
+            this.Hide();
+            ordenesForm.FormClosed += (s, args) => this.Show();
+        }
     }
 }
