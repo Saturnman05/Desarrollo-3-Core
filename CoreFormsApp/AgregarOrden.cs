@@ -40,8 +40,6 @@ namespace CoreFormsApp
             if (isEditMode)
             {
                 LoadOrderDetails();
-                lblPrecioTotal.Visible = true;
-                txtTotalPrice.Visible = true;
                 this.Text = "Editar Orden";
             }
         }
@@ -63,7 +61,6 @@ namespace CoreFormsApp
             txtNumeroOrden.Text = currentOrder.OrderNumber;
             cmbProductos.SelectedValue = currentOrder.ProductId;
             txtCantidad.Text = currentOrder.Quantity.ToString();
-            txtTotalPrice.Text = currentOrder.TotalPrice.ToString("0.00");
         }
 
         private decimal CalculateTotalPrice(int productId, int quantity)
@@ -142,24 +139,6 @@ namespace CoreFormsApp
                 }
             }
 
-            // MessageBox.Show("Orden agregada exitosamente.");
-            this.Close();
-        }
-
-        private void UpdateOrder()
-        {
-            using (var con = new SqlConnection(Core.Program.ConnString))
-            {
-                con.Open();
-                currentOrder.OrderNumber = txtNumeroOrden.Text;
-                currentOrder.ProductId = (int)cmbProductos.SelectedValue;
-                currentOrder.Quantity = int.Parse(txtCantidad.Text);
-                currentOrder.TotalPrice = decimal.Parse(txtTotalPrice.Text);
-                currentOrder.Date = DateTime.Now;
-                Core.Order.UpdateOrder(con, currentOrder);
-            }
-
-            MessageBox.Show("Orden actualizada exitosamente.");
             this.Close();
         }
 

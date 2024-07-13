@@ -70,3 +70,4 @@ C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.Usuarios.r
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.CrearUsuario.resources
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.Ordenes.resources
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.AgregarOrden.resources
+C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.Pagos.resources

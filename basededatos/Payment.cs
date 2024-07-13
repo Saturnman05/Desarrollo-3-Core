@@ -28,7 +28,7 @@ namespace Core
             }
 
 
-            string sql = "INSERT INTO payments (order_id, order_number, amount, status) VALUES (@order_id, @order_number, @amount, @status)";
+            string sql = "INSERT INTO payments (id, order_id, order_number, amount, status) VALUES (@id, @order_id, @order_number, @amount, @status)";
 
             using (var command = new SqlCommand(sql, con))
             {
@@ -66,7 +66,7 @@ namespace Core
 
         public static void DeletePayment (SqlConnection con, int paymentId)
         {
-            string sql = "DELETE FROM orders WHERE id = @id";
+            string sql = "DELETE FROM payments WHERE id = @id";
 
             using (var command = new SqlCommand(sql, con))
             {
@@ -105,7 +105,7 @@ namespace Core
         }
 
         public static void UpdatePayment(SqlConnection con, Payment payment) {
-            string sql = "UPDATE payments SET [order_id] = @order_id, [amount] = @amount, [date] = @date, [status] = @status, order_number = @order_number WHERE [id] = @id";
+            string sql = "UPDATE payments SET [order_id] = @order_id, [amount] = @amount, [date] = @date, [status] = @status WHERE order_number = @order_number";
 
             using (var command = new SqlCommand(sql, con))
             {
@@ -114,9 +114,38 @@ namespace Core
                 command.Parameters.AddWithValue("@amount", payment.Amount);
                 command.Parameters.AddWithValue("@date", payment.Date);
                 command.Parameters.AddWithValue("@status", payment.Status);
-                command.Parameters.AddWithValue("@id", payment.Id);
                 command.ExecuteNonQuery();
             }
+        }
+
+        public static List<Payment> GetPaymentByNumeroOrden (SqlConnection con, string numeroOrden)
+        {
+            List<Payment> paymentList = new List<Payment>();
+            string sql = "SELECT * FROM payments WHERE order_number = @order_number";
+
+            using (var command = new SqlCommand(sql, con))
+            {
+                command.Parameters.AddWithValue("@order_number", numeroOrden);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Payment payment = new Payment()
+                        {
+                            Id = int.Parse(reader["id"].ToString()),
+                            OrderId = int.Parse(reader["order_id"].ToString()),
+                            OrderNumber = reader["order_number"].ToString(),
+                            Amount = decimal.Parse(reader["amount"].ToString()),
+                            Date = DateTime.Parse(reader["date"].ToString()),
+                            Status = reader["status"].ToString(),
+                        };
+
+                        paymentList.Add(payment);
+                    }
+                }
+            }
+
+            return paymentList;
         }
     }
 }

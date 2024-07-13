@@ -76,7 +76,7 @@ namespace Core
             }
 
             // Inserta el nuevo producto con el ID calculado
-            string insertSql = "INSERT INTO products ([id], [name], [description], [price], [stock], [image]) VALUES (@id, @name, @description, @price, @stock, @image);";
+            string insertSql = "INSERT INTO products ([id], [name], [description], [price], [stock]) VALUES (@id, @name, @description, @price, @stock);";
             using (var insertCommand = new SqlCommand(insertSql, connection))
             {
                 insertCommand.Parameters.AddWithValue("@id", newProductId);
@@ -84,7 +84,6 @@ namespace Core
                 insertCommand.Parameters.AddWithValue("@description", product.Description);
                 insertCommand.Parameters.AddWithValue("@price", product.Price);
                 insertCommand.Parameters.AddWithValue("@stock", product.Stock);
-                insertCommand.Parameters.AddWithValue("@image", product.Image);
                 insertCommand.ExecuteNonQuery();
             }
 
@@ -93,7 +92,7 @@ namespace Core
 
         public static void UpdateProduct(SqlConnection connection, Product product)
         {
-            string sql = "UPDATE products SET [name] = @name, [description] = @description, [price] = @price, [stock] = @stock, [image] = @image WHERE [id] = @id";
+            string sql = "UPDATE products SET [name] = @name, [description] = @description, [price] = @price, [stock] = @stock WHERE [id] = @id";
 
             //if (product == null)
             //{
@@ -127,7 +126,6 @@ namespace Core
                 command.Parameters.AddWithValue("@description", product.Description);
                 command.Parameters.AddWithValue("@price", product.Price);
                 command.Parameters.AddWithValue("@stock", product.Stock);
-                command.Parameters.AddWithValue("@image", product.Image);
                 command.Parameters.AddWithValue("@id", product.Id);
                 command.ExecuteNonQuery();
             }

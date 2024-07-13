@@ -149,6 +149,9 @@ namespace CoreFormsApp
                 return;
             }
 
+            var siNo = MessageBox.Show("¿Seguro que desea eliminar el usuario? Esta acción es permanente.", "Eliminar usuario", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (siNo == DialogResult.No) return;
+
             try
             {
                 using (var con = new SqlConnection(Core.Program.ConnString))

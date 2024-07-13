@@ -158,27 +158,37 @@ namespace CoreFormsApp
                 return;
             }
 
-            using (var con = new SqlConnection(Core.Program.ConnString))
+            try
             {
-                con.Open();
-
-                Core.Product product = new Core.Product()
+                using (var con = new SqlConnection(Core.Program.ConnString))
                 {
-                    Name = txtNombre.Text,
-                    Price = precio,
-                    Stock = stock,
-                    Description = rtxtDesc.Text
-                };
+                    con.Open();
 
-                int id = Core.Product.AddProduct(con, product);
+                    Core.Product product = new Core.Product()
+                    {
+                        Name = txtNombre.Text,
+                        Price = precio,
+                        Stock = stock,
+                        Description = rtxtDesc.Text,
+                        Image = null
+                    };
 
-                Core.Inventory item = new Core.Inventory()
-                {
-                    ProductId = id,
-                    Quantity = product.Stock
-                };
+                    int id = Core.Product.AddProduct(con, product);
 
-                Core.Inventory.AddItem(con, item);
+                    Core.Inventory item = new Core.Inventory()
+                    {
+                        ProductId = id,
+                        Quantity = product.Stock
+                    };
+
+                    Core.Inventory.AddItem(con, item);
+                }
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Debes rellenar los campos del producto para crearlo.");
+                return;
             }
 
             MessageBox.Show("Se agregó el producto correctamente");
@@ -224,7 +234,8 @@ namespace CoreFormsApp
                 Name = txtNombre.Text,
                 Price = precio,
                 Stock = stock,
-                Description = rtxtDesc.Text
+                Description = rtxtDesc.Text,
+                Image = null
             };
 
             using (var con = new SqlConnection(Core.Program.ConnString))

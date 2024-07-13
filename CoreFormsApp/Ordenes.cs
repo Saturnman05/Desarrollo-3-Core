@@ -121,6 +121,10 @@ namespace CoreFormsApp
                 return;
             }
 
+            // Verificar si el usuario desea eliminar la orden
+            var siNo = MessageBox.Show("¿Seguro que desea eliminar la orden? Esta acción es permanente.", "Eliminar orden", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (siNo == DialogResult.No) return;
+
             string orderNumber = ordersList[cmbNumeroOrden.SelectedIndex].OrderNumber;
             foreach (var order in  ordersList)
             {
@@ -179,6 +183,20 @@ namespace CoreFormsApp
             cmbNumeroOrden.Items.Clear();
 
             LoadOrders(cmbNumeroOrden);
+        }
+
+        private void btnPagos_Click(object sender, EventArgs e)
+        {
+            if (cmbNumeroOrden.SelectedIndex == -1 || orderSelectedIndex == -1)
+            {
+                MessageBox.Show("Elige una órden.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Pagos pagosForm = new Pagos(currentUser, ordersList[cmbNumeroOrden.SelectedIndex].OrderNumber, ordersList[cmbNumeroOrden.SelectedIndex]);
+            pagosForm.Show();
+            this.Hide();
+            pagosForm.FormClosed += (s, args) => this.Show();
         }
     }
 }

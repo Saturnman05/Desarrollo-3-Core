@@ -45,6 +45,7 @@
             this.btnCrearOrden = new System.Windows.Forms.Button();
             this.btnActualizarOrden = new System.Windows.Forms.Button();
             this.btnEliminarOrden = new System.Windows.Forms.Button();
+            this.btnPagos = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -201,11 +202,22 @@
             this.btnEliminarOrden.UseVisualStyleBackColor = true;
             this.btnEliminarOrden.Click += new System.EventHandler(this.btnEliminarOrden_Click);
             // 
+            // btnPagos
+            // 
+            this.btnPagos.Location = new System.Drawing.Point(501, 71);
+            this.btnPagos.Name = "btnPagos";
+            this.btnPagos.Size = new System.Drawing.Size(99, 36);
+            this.btnPagos.TabIndex = 16;
+            this.btnPagos.Text = "Ver Pagos";
+            this.btnPagos.UseVisualStyleBackColor = true;
+            this.btnPagos.Click += new System.EventHandler(this.btnPagos_Click);
+            // 
             // Ordenes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnPagos);
             this.Controls.Add(this.btnEliminarOrden);
             this.Controls.Add(this.btnActualizarOrden);
             this.Controls.Add(this.btnCrearOrden);
@@ -251,5 +263,6 @@
         private System.Windows.Forms.Button btnCrearOrden;
         private System.Windows.Forms.Button btnActualizarOrden;
         private System.Windows.Forms.Button btnEliminarOrden;
+        private System.Windows.Forms.Button btnPagos;
     }
 }
