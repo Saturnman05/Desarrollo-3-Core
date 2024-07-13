@@ -11,19 +11,31 @@ namespace Core
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
+        public string OrderNumber { get; set; }
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
         public string Status { get; set; }
 
         public static void AddPayment (SqlConnection con, Payment payment)
         {
-            string sql = "INSERT INTO payments (order_id, amount, date, status) VALUES (@order_id, @amount, @date, @status)";
+            int id = 1;
+            string prevSql = "SELECT id FROM payments ORDER BY id DESC;";
+            using (var command = new SqlCommand(prevSql, con))
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                    id = int.Parse(reader["id"].ToString());
+            }
+
+
+            string sql = "INSERT INTO payments (order_id, order_number, amount, status) VALUES (@order_id, @order_number, @amount, @status)";
 
             using (var command = new SqlCommand(sql, con))
             {
+                command.Parameters.AddWithValue("@id", ++id);
                 command.Parameters.AddWithValue("@order_id", payment.OrderId);
+                command.Parameters.AddWithValue("@order_number", payment.OrderNumber);
                 command.Parameters.AddWithValue("@amount", payment.Amount);
-                command.Parameters.AddWithValue("@date", payment.Date);
                 command.Parameters.AddWithValue("@status", payment.Status);
                 command.ExecuteNonQuery();
             }
@@ -42,6 +54,7 @@ namespace Core
                 {
                     payment.Id = paymentId;
                     payment.OrderId = int.Parse(reader["order_id"].ToString());
+                    payment.OrderNumber = reader["order_number"].ToString();
                     payment.Amount = int.Parse(reader["amount"].ToString());
                     payment.Date = DateTime.Parse(reader["date"].ToString());
                     payment.Status = reader["status"].ToString();
@@ -77,6 +90,7 @@ namespace Core
                         {
                             Id = int.Parse(reader["id"].ToString()),
                             OrderId = int.Parse(reader["order_id"].ToString()),
+                            OrderNumber = reader["order_number"].ToString(),
                             Amount = decimal.Parse(reader["amount"].ToString()),
                             Date = DateTime.Parse(reader["date"].ToString()),
                             Status = reader["status"].ToString(),
@@ -91,11 +105,12 @@ namespace Core
         }
 
         public static void UpdatePayment(SqlConnection con, Payment payment) {
-            string sql = "UPDATE payments SET [order_id] = @order_id, [amount] = @amount, [date] = @date, [status] = @status WHERE [id] = @id";
+            string sql = "UPDATE payments SET [order_id] = @order_id, [amount] = @amount, [date] = @date, [status] = @status, order_number = @order_number WHERE [id] = @id";
 
             using (var command = new SqlCommand(sql, con))
             {
                 command.Parameters.AddWithValue("@order_id", payment.OrderId);
+                command.Parameters.AddWithValue("@order_number", payment.OrderNumber);
                 command.Parameters.AddWithValue("@amount", payment.Amount);
                 command.Parameters.AddWithValue("@date", payment.Date);
                 command.Parameters.AddWithValue("@status", payment.Status);

@@ -47,6 +47,7 @@ namespace CoreAPI.Controllers
                 {
                     Id = payment.Id,
                     OrderId = payment.OrderId,
+                    OrderNumber = payment.OrderNumber,
                     Amount = payment.Amount,
                     Date = payment.Date,
                     Status = payment.Status
@@ -74,6 +75,7 @@ namespace CoreAPI.Controllers
                     {
                         Id = id,
                         OrderId = payment.OrderId,
+                        OrderNumber = payment.OrderNumber,
                         Amount = payment.Amount,
                         Date = payment.Date,
                         Status = payment.Status

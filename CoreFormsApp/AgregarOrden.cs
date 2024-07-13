@@ -21,10 +21,14 @@ namespace CoreFormsApp
         private Core.Order currentOrder;
         private bool isEditMode;
 
-        public AgregarOrden(int orders, Core.User currentUser, Core.Order order = null)
+        private List<Core.Order> orderList;
+        private List<Core.Order> newOrderList = new List<Core.Order>();
+
+        public AgregarOrden(int orders, Core.User currentUser, List<Core.Order> ordersList, Core.Order order = null )
         {
             InitializeComponent();
             orderItems = new List<OrderItem>();
+            this.orderList = ordersList;
             this.orders = orders;
 
             this.currentUser = currentUser;
@@ -38,6 +42,7 @@ namespace CoreFormsApp
                 LoadOrderDetails();
                 lblPrecioTotal.Visible = true;
                 txtTotalPrice.Visible = true;
+                this.Text = "Editar Orden";
             }
         }
 
@@ -75,11 +80,26 @@ namespace CoreFormsApp
         {
             if (isEditMode)
             {
-                UpdateOrder();
+                string orderNumber = this.currentOrder.OrderNumber;
+                foreach (var norder in this.orderList)
+                {
+                    if (norder.OrderNumber == orderNumber)
+                    {
+                        using (var con = new SqlConnection(Core.Program.ConnString))
+                        {
+                            con.Open();
+                            Core.Order.DeleteOrder(con, norder.Id);
+                        }
+                    }
+                }
+
+                AddOrder();
+                MessageBox.Show("Orden actualizada exitosamente.");
             }
             else
             {
                 AddOrder();
+                MessageBox.Show("Orden agregada exitosamente.");
             }
         }
 
@@ -96,6 +116,8 @@ namespace CoreFormsApp
             using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
+                decimal totalPrice = 0;
+
                 foreach (var item in orderItems)
                 {
                     Order order = new Order()
@@ -108,11 +130,19 @@ namespace CoreFormsApp
                         Date = DateTime.Now
                     };
 
-                    Order.AddOrder(con, order);
+                    newOrderList.Add(order);
+
+                    totalPrice += order.TotalPrice;
+                }
+
+                foreach (var oreder in newOrderList)
+                {
+                    oreder.TotalPrice = totalPrice;
+                    Order.AddOrder(con, oreder);
                 }
             }
 
-            MessageBox.Show("Orden agregada exitosamente.");
+            // MessageBox.Show("Orden agregada exitosamente.");
             this.Close();
         }
 

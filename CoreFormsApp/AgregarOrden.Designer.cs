@@ -39,8 +39,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.regresarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblPrecioTotal = new System.Windows.Forms.Label();
-            this.txtTotalPrice = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -141,31 +139,11 @@
             this.regresarToolStripMenuItem.Text = "Regresar";
             this.regresarToolStripMenuItem.Click += new System.EventHandler(this.regresarToolStripMenuItem_Click);
             // 
-            // lblPrecioTotal
-            // 
-            this.lblPrecioTotal.AutoSize = true;
-            this.lblPrecioTotal.Location = new System.Drawing.Point(31, 250);
-            this.lblPrecioTotal.Name = "lblPrecioTotal";
-            this.lblPrecioTotal.Size = new System.Drawing.Size(88, 20);
-            this.lblPrecioTotal.TabIndex = 12;
-            this.lblPrecioTotal.Text = "Precio total";
-            this.lblPrecioTotal.Visible = false;
-            // 
-            // txtTotalPrice
-            // 
-            this.txtTotalPrice.Location = new System.Drawing.Point(169, 247);
-            this.txtTotalPrice.Name = "txtTotalPrice";
-            this.txtTotalPrice.Size = new System.Drawing.Size(278, 26);
-            this.txtTotalPrice.TabIndex = 11;
-            this.txtTotalPrice.Visible = false;
-            // 
             // AgregarOrden
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblPrecioTotal);
-            this.Controls.Add(this.txtTotalPrice);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -178,7 +156,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "AgregarOrden";
-            this.Text = "AgregarOrden";
+            this.Text = "Agregar Orden";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -199,7 +177,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem regresarToolStripMenuItem;
-        private System.Windows.Forms.Label lblPrecioTotal;
-        private System.Windows.Forms.TextBox txtTotalPrice;
     }
 }

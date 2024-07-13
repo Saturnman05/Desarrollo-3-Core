@@ -18,11 +18,21 @@ namespace Core
 
         public static void AddOrder (SqlConnection con, Order order)
         {
+            int id = 1;
+
+            string prevSql = "SELECT id FROM orders ORDER BY id DESC;";
+            using (var command = new SqlCommand(prevSql, con))
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                    id = int.Parse(reader["id"].ToString());
+            }
+
             string sql = "INSERT INTO orders ([id], order_number, product_id, quantity, total_price, date) VALUES (@id, @order_number, @product_id, @quantity, @total_price, @date)";
 
             using (var command = new SqlCommand(sql, con))
             {
-                command.Parameters.AddWithValue("@id", order.Id);
+                command.Parameters.AddWithValue("@id", ++id);
                 command.Parameters.AddWithValue("@order_number", order.OrderNumber);
                 command.Parameters.AddWithValue("@product_id", order.ProductId);
                 command.Parameters.AddWithValue("@quantity", order.Quantity);
@@ -123,7 +133,7 @@ namespace Core
         {
             List<Product> productList = new List<Product>();
 
-            string sql = "SELECT * FROM products JOIN orders ON products.id = orders.product_id WHERE orders.order_number = @order_number";
+            string sql = "SELECT products.id, products.name, products.description, products.price, products.stock, products.image FROM products JOIN orders ON products.id = orders.product_id WHERE orders.order_number = @order_number;";
             using (var command = new SqlCommand(sql, con))
             {
                 command.Parameters.AddWithValue("@order_number", order.OrderNumber);

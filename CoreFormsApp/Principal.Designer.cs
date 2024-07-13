@@ -34,6 +34,7 @@
             this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.órdenesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
@@ -47,7 +48,7 @@
             this.btnCrear = new System.Windows.Forms.Button();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.cmbProducts = new System.Windows.Forms.ComboBox();
-            this.órdenesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pagosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +60,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
             this.usuariosToolStripMenuItem,
-            this.órdenesToolStripMenuItem});
+            this.órdenesToolStripMenuItem,
+            this.pagosToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 33);
@@ -103,6 +105,13 @@
             this.usuariosToolStripMenuItem.Size = new System.Drawing.Size(96, 29);
             this.usuariosToolStripMenuItem.Text = "Usuarios";
             this.usuariosToolStripMenuItem.Click += new System.EventHandler(this.usuariosToolStripMenuItem_Click);
+            // 
+            // órdenesToolStripMenuItem
+            // 
+            this.órdenesToolStripMenuItem.Name = "órdenesToolStripMenuItem";
+            this.órdenesToolStripMenuItem.Size = new System.Drawing.Size(95, 29);
+            this.órdenesToolStripMenuItem.Text = "Órdenes";
+            this.órdenesToolStripMenuItem.Click += new System.EventHandler(this.órdenesToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -228,12 +237,11 @@
             this.cmbProducts.TabIndex = 2;
             this.cmbProducts.SelectedIndexChanged += new System.EventHandler(this.cmbProducts_SelectedIndexChanged);
             // 
-            // órdenesToolStripMenuItem
+            // pagosToolStripMenuItem
             // 
-            this.órdenesToolStripMenuItem.Name = "órdenesToolStripMenuItem";
-            this.órdenesToolStripMenuItem.Size = new System.Drawing.Size(95, 29);
-            this.órdenesToolStripMenuItem.Text = "Órdenes";
-            this.órdenesToolStripMenuItem.Click += new System.EventHandler(this.órdenesToolStripMenuItem_Click);
+            this.pagosToolStripMenuItem.Name = "pagosToolStripMenuItem";
+            this.pagosToolStripMenuItem.Size = new System.Drawing.Size(76, 29);
+            this.pagosToolStripMenuItem.Text = "Pagos";
             // 
             // Principal
             // 
@@ -277,5 +285,6 @@
         private System.Windows.Forms.RichTextBox rtxtDesc;
         private System.Windows.Forms.ToolStripMenuItem usuariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem órdenesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pagosToolStripMenuItem;
     }
 }

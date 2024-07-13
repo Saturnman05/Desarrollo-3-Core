@@ -115,13 +115,13 @@ namespace CoreFormsApp
 
         private void btnEliminarOrden_Click(object sender, EventArgs e)
         {
-            if (orderSelectedIndex == -1)
+            if (cmbNumeroOrden.SelectedIndex == -1 || orderSelectedIndex == -1)
             {
                 MessageBox.Show("Selecciona una orden para eliminar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string orderNumber = ordersList[orderSelectedIndex].OrderNumber;
+            string orderNumber = ordersList[cmbNumeroOrden.SelectedIndex].OrderNumber;
             foreach (var order in  ordersList)
             {
                 if (order.OrderNumber == orderNumber)
@@ -134,7 +134,15 @@ namespace CoreFormsApp
                 }
             }
 
+            txtCantidadProducto.Text = "";
+            txtDate.Text = "";
+            txtPrecioTotal.Text = "";
+            cmbProductos.Items.Clear();
+            cmbNumeroOrden.Items.Clear();
+
             LoadOrders(cmbNumeroOrden);
+
+            MessageBox.Show("Se eliminó la orden correctamente.");
         }
 
         private void btnCrearOrden_Click(object sender, EventArgs e)
@@ -142,9 +150,15 @@ namespace CoreFormsApp
             using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
-                AgregarOrden agregarOrdenForm = new AgregarOrden(Core.Order.ListOrders(con).Count, currentUser, null);
+                AgregarOrden agregarOrdenForm = new AgregarOrden(Core.Order.ListOrders(con).Count, currentUser, ordersList, null);
                 agregarOrdenForm.ShowDialog();
             }
+
+            txtCantidadProducto.Text = "";
+            txtDate.Text = "";
+            txtPrecioTotal.Text = "";
+            cmbProductos.Items.Clear();
+            cmbNumeroOrden.Items.Clear();
 
             LoadOrders(cmbNumeroOrden);
         }
@@ -154,9 +168,15 @@ namespace CoreFormsApp
             using (var con = new SqlConnection(Core.Program.ConnString))
             {
                 con.Open();
-                AgregarOrden agregarOrdenForm = new AgregarOrden(Core.Order.ListOrders(con).Count, currentUser, ordersList[orderSelectedIndex]);
+                AgregarOrden agregarOrdenForm = new AgregarOrden(Core.Order.ListOrders(con).Count, currentUser, ordersList, Core.Order.GetOrder(con, orderSelectedIndex));
                 agregarOrdenForm.ShowDialog();
             }
+
+            txtCantidadProducto.Text = "";
+            txtDate.Text = "";
+            txtPrecioTotal.Text = "";
+            cmbProductos.Items.Clear();
+            cmbNumeroOrden.Items.Clear();
 
             LoadOrders(cmbNumeroOrden);
         }
