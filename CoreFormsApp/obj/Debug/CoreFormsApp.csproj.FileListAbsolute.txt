@@ -69,3 +69,4 @@ C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreForm.A70FE1FF.Up2Da
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.Usuarios.resources
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.CrearUsuario.resources
 C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.Ordenes.resources
+C:\Users\user\Desktop\basededatos\CoreFormsApp\obj\Debug\CoreFormsApp.AgregarOrden.resources

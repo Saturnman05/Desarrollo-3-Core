@@ -15,6 +15,8 @@ namespace CoreFormsApp
     public partial class Ordenes : Form
     {
         private Core.User currentUser = new Core.User();
+
+        // Ordenes
         private static List<Core.Order> ordersList = new List<Core.Order>();
         private static int orderSelectedIndex = -1;
 
@@ -27,6 +29,13 @@ namespace CoreFormsApp
             InitializeComponent();
             this.currentUser = currentUser;
             LoadOrders(cmbNumeroOrden);
+
+            if (currentUser.Rol != 0)
+            {
+                btnCrearOrden.Enabled = false;
+                btnActualizarOrden.Enabled = false;
+                btnEliminarOrden.Enabled = false;
+            }
         }
 
         public static void LoadOrders(ComboBox cmbNumeroOrden)
@@ -35,7 +44,10 @@ namespace CoreFormsApp
             cmbNumeroOrden.Items.Clear();
             foreach (var order in ordersList)
             {
-                cmbNumeroOrden.Items.Add(order.OrderNumber);
+                if (!cmbNumeroOrden.Items.Contains(order.OrderNumber)) 
+                {
+                    cmbNumeroOrden.Items.Add(order.OrderNumber);
+                }
             }
         }
 
@@ -92,9 +104,61 @@ namespace CoreFormsApp
 
         private void cmbProductos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = cmbNumeroOrden.SelectedIndex;
-            orderSelectedIndex = (int)ordersList[index].Id;
-            txtCantidadProducto.Text = ordersList[index].Quantity.ToString();
+            txtCantidadProducto.Text = "";
+
+            int indexProduct = cmbProductos.SelectedIndex;
+            productSelectedIndex = (int)productList[indexProduct].Id;
+
+            string numeroOrden = ordersList[cmbProductos.SelectedIndex].OrderNumber;
+            txtCantidadProducto.Text = Core.Order.GetOrderProductQuantity(productSelectedIndex, numeroOrden);
+        }
+
+        private void btnEliminarOrden_Click(object sender, EventArgs e)
+        {
+            if (orderSelectedIndex == -1)
+            {
+                MessageBox.Show("Selecciona una orden para eliminar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string orderNumber = ordersList[orderSelectedIndex].OrderNumber;
+            foreach (var order in  ordersList)
+            {
+                if (order.OrderNumber == orderNumber)
+                {
+                    using (var con = new SqlConnection(Core.Program.ConnString))
+                    {
+                        con.Open();
+                        Core.Order.DeleteOrder(con, order.Id);
+                    }
+                }
+            }
+
+            LoadOrders(cmbNumeroOrden);
+        }
+
+        private void btnCrearOrden_Click(object sender, EventArgs e)
+        {
+            using (var con = new SqlConnection(Core.Program.ConnString))
+            {
+                con.Open();
+                AgregarOrden agregarOrdenForm = new AgregarOrden(Core.Order.ListOrders(con).Count, currentUser, null);
+                agregarOrdenForm.ShowDialog();
+            }
+
+            LoadOrders(cmbNumeroOrden);
+        }
+
+        private void btnActualizarOrden_Click(object sender, EventArgs e)
+        {
+            using (var con = new SqlConnection(Core.Program.ConnString))
+            {
+                con.Open();
+                AgregarOrden agregarOrdenForm = new AgregarOrden(Core.Order.ListOrders(con).Count, currentUser, ordersList[orderSelectedIndex]);
+                agregarOrdenForm.ShowDialog();
+            }
+
+            LoadOrders(cmbNumeroOrden);
         }
     }
 }

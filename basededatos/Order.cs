@@ -148,5 +148,30 @@ namespace Core
 
             return productList;
         }
+
+        public static string GetOrderProductQuantity(int indexProduct, string orderNumber)
+        {
+            using (var con = new SqlConnection(Program.ConnString))
+            {
+                con.Open();
+
+                string sql = "SELECT quantity FROM orders WHERE product_id = @product_id AND order_number = @order_number;";
+                using (var command = new SqlCommand(sql, con))
+                {
+                    command.Parameters.AddWithValue("@product_id", indexProduct);
+                    command.Parameters.AddWithValue("@order_number", orderNumber);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return reader["quantity"].ToString();
+                        }
+                    }
+                }
+            }
+
+            return "";
+        }
     }
 }

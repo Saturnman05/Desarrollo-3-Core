@@ -42,6 +42,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtDate = new System.Windows.Forms.TextBox();
+            this.btnCrearOrden = new System.Windows.Forms.Button();
+            this.btnActualizarOrden = new System.Windows.Forms.Button();
+            this.btnEliminarOrden = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +56,7 @@
             this.regresarToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -168,11 +171,44 @@
             this.txtDate.Size = new System.Drawing.Size(143, 26);
             this.txtDate.TabIndex = 10;
             // 
+            // btnCrearOrden
+            // 
+            this.btnCrearOrden.Location = new System.Drawing.Point(81, 364);
+            this.btnCrearOrden.Name = "btnCrearOrden";
+            this.btnCrearOrden.Size = new System.Drawing.Size(171, 42);
+            this.btnCrearOrden.TabIndex = 13;
+            this.btnCrearOrden.Text = "Crear";
+            this.btnCrearOrden.UseVisualStyleBackColor = true;
+            this.btnCrearOrden.Click += new System.EventHandler(this.btnCrearOrden_Click);
+            // 
+            // btnActualizarOrden
+            // 
+            this.btnActualizarOrden.Location = new System.Drawing.Point(308, 364);
+            this.btnActualizarOrden.Name = "btnActualizarOrden";
+            this.btnActualizarOrden.Size = new System.Drawing.Size(171, 42);
+            this.btnActualizarOrden.TabIndex = 14;
+            this.btnActualizarOrden.Text = "Actualizar";
+            this.btnActualizarOrden.UseVisualStyleBackColor = true;
+            this.btnActualizarOrden.Click += new System.EventHandler(this.btnActualizarOrden_Click);
+            // 
+            // btnEliminarOrden
+            // 
+            this.btnEliminarOrden.Location = new System.Drawing.Point(530, 364);
+            this.btnEliminarOrden.Name = "btnEliminarOrden";
+            this.btnEliminarOrden.Size = new System.Drawing.Size(171, 42);
+            this.btnEliminarOrden.TabIndex = 15;
+            this.btnEliminarOrden.Text = "Eliminar";
+            this.btnEliminarOrden.UseVisualStyleBackColor = true;
+            this.btnEliminarOrden.Click += new System.EventHandler(this.btnEliminarOrden_Click);
+            // 
             // Ordenes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnEliminarOrden);
+            this.Controls.Add(this.btnActualizarOrden);
+            this.Controls.Add(this.btnCrearOrden);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtDate);
@@ -212,5 +248,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtDate;
+        private System.Windows.Forms.Button btnCrearOrden;
+        private System.Windows.Forms.Button btnActualizarOrden;
+        private System.Windows.Forms.Button btnEliminarOrden;
     }
 }
